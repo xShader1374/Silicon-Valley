@@ -172,8 +172,10 @@ color = Color(0, 0, 0, 1)
 
 [node name="Sponsor_1_TextureRect" type="TextureRect" parent="."]
 visible = false
-offset_right = 1157.0
-offset_bottom = 650.0
+offset_left = -62.0
+offset_top = -34.0
+offset_right = 1218.0
+offset_bottom = 686.0
 texture = ExtResource("2_iqoh1")
 
 [node name="Sponsor_2_TextureRect" type="TextureRect" parent="."]
