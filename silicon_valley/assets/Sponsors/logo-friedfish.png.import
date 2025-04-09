@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br0etwwraovch"
-path="res://.godot/imported/1.png-c9a8e694d0d275633d567702fb508122.ctex"
+uid="uid://cido4jn83nhqd"
+path="res://.godot/imported/logo-friedfish.png-ab172c81eaa5dbbc81fbd0db5513ce7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/1.png"
-dest_files=["res://.godot/imported/1.png-c9a8e694d0d275633d567702fb508122.ctex"]
+source_file="res://assets/Sponsors/logo-friedfish.png"
+dest_files=["res://.godot/imported/logo-friedfish.png-ab172c81eaa5dbbc81fbd0db5513ce7d.ctex"]
 
 [params]
 

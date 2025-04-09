@@ -30,6 +30,9 @@ border_width_bottom = 1
 [sub_resource type="LabelSettings" id="LabelSettings_j3loy"]
 font = ExtResource("2_pcqpl")
 font_size = 48
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbwyv"]
 bg_color = Color(0.337255, 0.337255, 0.305882, 1)

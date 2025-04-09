@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyq2aatk12nis"
-path="res://.godot/imported/2.png-f79589217c9a74fd0d3207c8643de526.ctex"
+uid="uid://3tso50di8a0c"
+path="res://.godot/imported/Tubozzi-SPA-Logo-SVG.svg-064f10122127cdfe39a7ff1e6d3d29a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2.png"
-dest_files=["res://.godot/imported/2.png-f79589217c9a74fd0d3207c8643de526.ctex"]
+source_file="res://assets/Sponsors/Tubozzi-SPA-Logo-SVG.svg"
+dest_files=["res://.godot/imported/Tubozzi-SPA-Logo-SVG.svg-064f10122127cdfe39a7ff1e6d3d29a6.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=24.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

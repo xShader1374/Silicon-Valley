@@ -1,0 +1,172 @@
+[gd_scene load_steps=12 format=3 uid="uid://dblo1acmeuiyl"]
+
+[ext_resource type="Script" uid="uid://dwfdhwgqyprql" path="res://scripts/main_menu.gd" id="1_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://di7i1pgp2i2ei" path="res://assets/Models/Cars/Car_6/Car6.blend" id="1_ekxnf"]
+[ext_resource type="FontFile" uid="uid://c7t0iwyqx24uh" path="res://Themes/Fonts/Perfect DOS VGA 437 Win.ttf" id="2_bqqt6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wu84c"]
+sky_top_color = Color(0.0144, 0.0250667, 0.04, 1)
+sky_horizon_color = Color(0.068, 0.1186, 0.2, 1)
+ground_bottom_color = Color(0.0144, 0.0250667, 0.04, 1)
+ground_horizon_color = Color(0.068, 0.1186, 0.2, 1)
+ground_curve = 0.15
+
+[sub_resource type="Sky" id="Sky_8ln24"]
+sky_material = SubResource("ProceduralSkyMaterial_wu84c")
+
+[sub_resource type="Environment" id="Environment_rtw2f"]
+background_mode = 2
+sky = SubResource("Sky_8ln24")
+glow_enabled = true
+
+[sub_resource type="World3D" id="World3D_oa1go"]
+environment = SubResource("Environment_rtw2f")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbmy8"]
+content_margin_left = 64.0
+content_margin_top = 16.0
+content_margin_right = 64.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0, 0, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_jk1qb"]
+font = ExtResource("2_bqqt6")
+font_size = 72
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbwyv"]
+bg_color = Color(0.337255, 0.337255, 0.305882, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.572549, 0.560784, 0.509804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dd4i"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bqqt6")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_oa1go")
+handle_input_locally = false
+size = Vector2i(576, 324)
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Car62" parent="SubViewportContainer/SubViewport/Node3D" instance=ExtResource("1_ekxnf")]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8, 9, -24)
+current = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_tbmy8")
+text = "Silicon Valley"
+label_settings = SubResource("LabelSettings_jk1qb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mbwyv")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+text = "New Game"
+
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+text = "Continue"
+
+[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+text = "Settings"
+
+[node name="Button4" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+text = "Quit"

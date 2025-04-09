@@ -1,52 +1,58 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6nuu3vmt11tv"]
+[gd_scene load_steps=9 format=3 uid="uid://b6nuu3vmt11tv"]
 
 [ext_resource type="Script" uid="uid://bnusp3tpueff" path="res://scripts/sponsor_node_2d.gd" id="1_h1so0"]
-[ext_resource type="Texture2D" uid="uid://br0etwwraovch" path="res://assets/1.png" id="2_iqoh1"]
-[ext_resource type="Texture2D" uid="uid://dyq2aatk12nis" path="res://assets/2.png" id="3_ycjst"]
-[ext_resource type="Texture2D" uid="uid://cpubdr2o7rylg" path="res://assets/3.png" id="4_dfsxc"]
+[ext_resource type="Texture2D" uid="uid://br0etwwraovch" path="res://assets/Sponsors/1.png" id="2_iqoh1"]
+[ext_resource type="Texture2D" uid="uid://dyq2aatk12nis" path="res://assets/Sponsors/2.png" id="3_ycjst"]
+[ext_resource type="Texture2D" uid="uid://3tso50di8a0c" path="res://assets/Sponsors/Tubozzi-SPA-Logo-SVG.svg" id="4_iqoh1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iqoh1"]
+font_size = 48
+font_color = Color(0.34902, 0.572549, 0.411765, 1)
+outline_size = 2
+outline_color = Color(0.34902, 0.572549, 0.411765, 1)
 
 [sub_resource type="Animation" id="Animation_ycjst"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sponsor_1_TextureRect:modulate")
+tracks/0/path = NodePath("Sponsor1TextureRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sponsor_2_TextureRect:modulate")
+tracks/1/path = NodePath("Sponsor2TextureRect:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sponsor_3_TextureRect:modulate")
+tracks/2/path = NodePath("Sponsor1TextureRect:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"update": 1,
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sponsor_1_TextureRect:visible")
+tracks/3/path = NodePath("Sponsor2TextureRect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -58,7 +64,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sponsor_2_TextureRect:visible")
+tracks/4/path = NodePath("Sponsor3VBoxContainer:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -70,63 +76,64 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sponsor_3_TextureRect:visible")
+tracks/5/path = NodePath("Sponsor3VBoxContainer:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_iqoh1"]
 resource_name = "show_sponsors"
 length = 3.0
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sponsor_1_TextureRect:modulate")
+tracks/0/path = NodePath("Sponsor1TextureRect:modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sponsor_2_TextureRect:modulate")
+tracks/1/path = NodePath("Sponsor2TextureRect:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1, 1.5, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(1, 1.3, 1.7, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sponsor_3_TextureRect:modulate")
-tracks/2/interp = 2
+tracks/2/path = NodePath("Sponsor1TextureRect:visible")
+tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(2, 2.5, 3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sponsor_1_TextureRect:visible")
+tracks/3/path = NodePath("Sponsor2TextureRect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -134,11 +141,11 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sponsor_2_TextureRect:visible")
+tracks/4/path = NodePath("Sponsor3VBoxContainer:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(2),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -146,14 +153,14 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sponsor_3_TextureRect:visible")
+tracks/5/path = NodePath("Sponsor3VBoxContainer:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(2),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"times": PackedFloat32Array(2, 2.3, 2.7, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dfsxc"]
@@ -162,37 +169,81 @@ _data = {
 &"show_sponsors": SubResource("Animation_iqoh1")
 }
 
-[node name="Sponsor_Node2D" type="Node2D"]
+[node name="SponsorControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_h1so0")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 1160.0
-offset_bottom = 652.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Sponsor_1_TextureRect" type="TextureRect" parent="."]
+[node name="Sponsor1TextureRect" type="TextureRect" parent="."]
 visible = false
-offset_left = -62.0
-offset_top = -34.0
-offset_right = 1218.0
-offset_bottom = 686.0
+modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_iqoh1")
+expand_mode = 2
 
-[node name="Sponsor_2_TextureRect" type="TextureRect" parent="."]
+[node name="Sponsor2TextureRect" type="TextureRect" parent="."]
 visible = false
-offset_left = -51.0
-offset_top = -26.0
-offset_right = 1229.0
-offset_bottom = 694.0
+modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_ycjst")
+expand_mode = 2
 
-[node name="Sponsor_3_TextureRect" type="TextureRect" parent="."]
+[node name="Sponsor3VBoxContainer" type="VBoxContainer" parent="."]
 visible = false
-offset_right = 1159.0
-offset_bottom = 652.0
-texture = ExtResource("4_dfsxc")
+modulate = Color(0, 0, 0, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Sponsor3TextureRect" type="TextureRect" parent="Sponsor3VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_iqoh1")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Sponsor3VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Tubozzi S.P.A"
+label_settings = SubResource("LabelSettings_iqoh1")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_dfsxc")
 }
+speed_scale = 0.25
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
