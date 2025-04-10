@@ -5,6 +5,13 @@ extends Control
 func _ready() -> void:
 	animation_player.play("show_sponsors")
 
+func tubozziLabelAnimation() -> void:
+	var tween: Tween = create_tween()
+	
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_trans(Tween.TRANS_EXPO)
+	
+	tween.tween_property(%TubozziLabel, "position", Vector2(0.0, 0.0), 2.0).from( Vector2(0.0, -72.0) )
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "show_sponsors":

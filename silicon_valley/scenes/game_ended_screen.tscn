@@ -138,12 +138,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_f52g6")
 
-[node name="DEBUG_Timer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-autostart = true
-ignore_time_scale = true
-
 [node name="BGBlurEffect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_qle7k")
 layout_mode = 1
@@ -804,5 +798,4 @@ label_settings = SubResource("LabelSettings_ng3ov")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="timeout" from="DEBUG_Timer" to="." method="_on_debug_timer_timeout"]
 [connection signal="resized" from="MarginContainer/VBoxContainer" to="." method="_on_v_box_container_resized"]

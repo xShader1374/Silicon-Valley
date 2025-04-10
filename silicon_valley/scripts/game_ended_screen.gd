@@ -3,7 +3,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	showAnimation()
 
 
 func showAnimation() -> void:
@@ -20,7 +20,3 @@ func showAnimation() -> void:
 
 func _on_v_box_container_resized() -> void:
 	%VBoxContainer.pivot_offset = %VBoxContainer.size / 2.0
-
-
-func _on_debug_timer_timeout() -> void:
-	showAnimation()

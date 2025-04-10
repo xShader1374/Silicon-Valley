@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://3tso50di8a0c" path="res://assets/Sponsors/Tubozzi-SPA-Logo-SVG.svg" id="4_iqoh1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_iqoh1"]
-font_size = 48
+font_size = 72
 font_color = Color(0.34902, 0.572549, 0.411765, 1)
 outline_size = 2
 outline_color = Color(0.34902, 0.572549, 0.411765, 1)
@@ -162,6 +162,20 @@ tracks/5/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
 }
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"tubozziLabelAnimation"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dfsxc"]
 _data = {
@@ -232,10 +246,15 @@ size_flags_vertical = 4
 texture = ExtResource("4_iqoh1")
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="Sponsor3VBoxContainer"]
+[node name="Control" type="MarginContainer" parent="Sponsor3VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="TubozziLabel" type="Label" parent="Sponsor3VBoxContainer/Control"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-text = "Tubozzi S.P.A"
+text = "Tubozzi S.P.A."
 label_settings = SubResource("LabelSettings_iqoh1")
 horizontal_alignment = 1
 vertical_alignment = 1

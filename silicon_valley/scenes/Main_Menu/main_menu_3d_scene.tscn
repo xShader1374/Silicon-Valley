@@ -359,7 +359,7 @@ material = SubResource("StandardMaterial3D_nhrti")
 size = Vector3(800, 1, 800)
 
 [sub_resource type="Curve" id="Curve_nhrti"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 0.9), 0.0, 0.0, 0, 0, Vector2(0.8, 0.9), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 metadata/_snap_enabled = true
 
@@ -367,7 +367,7 @@ metadata/_snap_enabled = true
 curve = SubResource("Curve_nhrti")
 
 [sub_resource type="Curve" id="Curve_85uyl"]
-_data = [Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), -9.95446, 0.0, 0, 0]
 point_count = 5
 metadata/_snap_enabled = true
 
@@ -383,6 +383,8 @@ initial_velocity_max = 4.0
 gravity = Vector3(-6, 0, 0)
 linear_accel_min = 0.949998
 linear_accel_max = 0.949998
+scale_min = 0.5
+scale_max = 2.0
 scale_curve = SubResource("CurveTexture_f86yn")
 alpha_curve = SubResource("CurveTexture_pfv6b")
 anim_speed_min = 1.0
@@ -396,6 +398,8 @@ turbulence_initial_displacement_max = 1.49012e-06
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibfo0"]
 blend_mode = 1
 cull_mode = 2
+texture_filter = 0
+disable_receive_shadows = true
 use_particle_trails = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_8dov7"]
@@ -407,8 +411,11 @@ point_count = 3
 metadata/_snap_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vw2pf"]
+transparency = 1
 blend_mode = 1
 cull_mode = 2
+texture_filter = 0
+disable_receive_shadows = true
 use_particle_trails = true
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_wqi24"]
@@ -465,7 +472,7 @@ current = true
 transform = Transform3D(-4.37114e-08, -0.0697565, 0.997564, 0, 0.997564, 0.0697565, -1, 3.04915e-09, -4.36049e-08, 24, 8, 1)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 88, 15, 0)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 115, 16, 0)
 amount = 32
 amount_ratio = 0.75
 lifetime = 7.0
