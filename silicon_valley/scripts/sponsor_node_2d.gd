@@ -1,6 +1,7 @@
 extends Control
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sponsor_2_video_stream_player: VideoStreamPlayer = $Sponsor2VideoStreamPlayer
 
 func _ready() -> void:
 	animation_player.play("show_sponsors")
@@ -9,7 +10,9 @@ func play_form_software_sfx() -> void:
 	pass
 
 func play_fried_fish_sfx() -> void:
-	SfxPlayer.play(0)
+	# rimosso perché già nel nuovo video
+	# SfxPlayer.play(0)
+	sponsor_2_video_stream_player.play()
 
 func play_tubozzi_sfx() -> void:
 	SfxPlayer.play(1)

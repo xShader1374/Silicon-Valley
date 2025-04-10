@@ -5,5 +5,4 @@
 [node name="AmbiencePlayer" type="AudioStreamPlayer"]
 process_mode = 3
 max_polyphony = 3
-bus = &"Ambience"
 script = ExtResource("1_c0sc0")

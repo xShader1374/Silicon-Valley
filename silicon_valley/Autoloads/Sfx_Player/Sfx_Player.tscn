@@ -5,5 +5,4 @@
 [node name="SfxPlayer" type="AudioStreamPlayer"]
 process_mode = 3
 max_polyphony = 3
-bus = &"Ost"
 script = ExtResource("1_v3exq")
