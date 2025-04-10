@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d21gwxcbtjo52"
-path="res://.godot/imported/car6.png-6f0b6ba971ff7fc779c7c8d93e5f6c12.ctex"
+uid="uid://bvuyyxh5sf4rc"
+path="res://.godot/imported/wheel.png-acf8be3df0209c78c91d6573b6291743.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Models/Cars/Car_6/textures/car6.png"
-dest_files=["res://.godot/imported/car6.png-6f0b6ba971ff7fc779c7c8d93e5f6c12.ctex"]
+source_file="res://assets/Models/Wheel/textures/wheel.png"
+dest_files=["res://.godot/imported/wheel.png-acf8be3df0209c78c91d6573b6291743.ctex"]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1

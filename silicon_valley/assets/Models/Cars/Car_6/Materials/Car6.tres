@@ -4,4 +4,9 @@
 
 [resource]
 albedo_texture = ExtResource("1_siars")
+metallic = 0.25
+metallic_specular = 0.75
+roughness = 0.75
+normal_enabled = true
+normal_scale = 1.14
 texture_filter = 4
