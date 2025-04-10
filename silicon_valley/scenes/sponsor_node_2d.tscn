@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bnusp3tpueff" path="res://scripts/sponsor_node_2d.gd" id="1_h1so0"]
 [ext_resource type="Texture2D" uid="uid://br0etwwraovch" path="res://assets/Sponsors/1.png" id="2_iqoh1"]
-[ext_resource type="Texture2D" uid="uid://dyq2aatk12nis" path="res://assets/Sponsors/2.png" id="3_ycjst"]
+[ext_resource type="Texture2D" uid="uid://bgavijo2xo2p7" path="res://assets/Sponsors/fried-fish-logo-1.png" id="3_iqoh1"]
 [ext_resource type="Texture2D" uid="uid://3tso50di8a0c" path="res://assets/Sponsors/Tubozzi-SPA-Logo-SVG.svg" id="4_iqoh1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_iqoh1"]
@@ -169,11 +169,20 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(2),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1, 2, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
+"method": &"play_form_software_sfx"
+}, {
+"args": [],
+"method": &"play_fried_fish_sfx"
+}, {
+"args": [],
 "method": &"tubozziLabelAnimation"
+}, {
+"args": [],
+"method": &"play_tubozzi_sfx"
 }]
 }
 
@@ -224,8 +233,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_ycjst")
-expand_mode = 2
+texture = ExtResource("3_iqoh1")
+stretch_mode = 5
 
 [node name="Sponsor3VBoxContainer" type="VBoxContainer" parent="."]
 visible = false

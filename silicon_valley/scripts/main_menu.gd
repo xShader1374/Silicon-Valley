@@ -5,10 +5,9 @@ extends Control
 func _ready() -> void:
 	animateFadeIn()
 	showAnimation(%buttonsPanelContainer)
-	await get_tree().create_timer(0.15, true, false, true).timeout
-	showAnimation(%titleLabel)
+	showAnimation(%titleLabel, 1.0)
 
-func showAnimation(node: Node) -> void:
+func showAnimation(node: Node, duration: float = 0.5) -> void:
 	node.pivot_offset = node.size / 2.0
 	
 	var tween: Tween = create_tween()
@@ -16,8 +15,8 @@ func showAnimation(node: Node) -> void:
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_EXPO)
 	
-	tween.tween_property(node, "scale:y", 1.0, 0.5).from(0.0)
-	tween.parallel().tween_property(node, "scale:x", 1.0, 0.5).from(0.0).set_delay(0.075)
+	tween.tween_property(node, "scale:y", 1.0, duration).from(0.0)
+	tween.parallel().tween_property(node, "scale:x", 1.0, duration).from(0.0).set_delay(0.075)
 
 func animateFadeIn() -> void:
 	var tween: Tween = create_tween()

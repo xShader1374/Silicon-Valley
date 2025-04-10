@@ -15,6 +15,13 @@ run/main_scene="uid://b6nuu3vmt11tv"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://Autoloads/globals.gd"
+AmbiencePlayer="*res://Autoloads/Ambience_Player/Ambience_Player.tscn"
+OstPlayer="*res://Autoloads/Ost_Player/Ost_Player.tscn"
+SfxPlayer="*res://Autoloads/Sfx_Player/Sfx_Player.tscn"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=1

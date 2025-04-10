@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dblo1acmeuiyl"]
+[gd_scene load_steps=16 format=3 uid="uid://dblo1acmeuiyl"]
 
 [ext_resource type="Script" uid="uid://dwfdhwgqyprql" path="res://scripts/main_menu.gd" id="1_xld3r"]
 [ext_resource type="PackedScene" uid="uid://2612pt7d3ymk" path="res://scenes/Main_Menu/main_menu_3d_scene.tscn" id="2_dcss6"]
 [ext_resource type="Texture2D" uid="uid://dxglujtryyovp" path="res://assets/Sky Stars/moon-texture.png" id="2_eecad"]
 [ext_resource type="FontFile" uid="uid://c7t0iwyqx24uh" path="res://Themes/Fonts/Perfect DOS VGA 437 Win.ttf" id="3_eecad"]
 [ext_resource type="Texture2D" uid="uid://3y0b07w8w4xl" path="res://assets/Sky Stars/5436444822_66525ce22d_b-2037829912.jpg" id="3_hii1o"]
+[ext_resource type="Script" uid="uid://decqxsttgila4" path="res://CustomClasses/custom_button.gd" id="6_hii1o"]
 
 [sub_resource type="Shader" id="Shader_nhrti"]
 code = "shader_type sky;
@@ -478,6 +479,8 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
 text = "New Game"
+script = ExtResource("6_hii1o")
+metadata/_custom_type_script = "uid://decqxsttgila4"
 
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

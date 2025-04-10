@@ -5,6 +5,15 @@ extends Control
 func _ready() -> void:
 	animation_player.play("show_sponsors")
 
+func play_form_software_sfx() -> void:
+	pass
+
+func play_fried_fish_sfx() -> void:
+	SfxPlayer.play(0)
+
+func play_tubozzi_sfx() -> void:
+	SfxPlayer.play(1)
+
 func tubozziLabelAnimation() -> void:
 	var tween: Tween = create_tween()
 	
