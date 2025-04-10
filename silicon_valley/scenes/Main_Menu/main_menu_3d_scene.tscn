@@ -380,12 +380,16 @@ emission_shape = 3
 emission_box_extents = Vector3(48, 16, 32)
 initial_velocity_min = 4.0
 initial_velocity_max = 4.0
-gravity = Vector3(0, 0, 0)
+gravity = Vector3(-6, 0, 0)
+linear_accel_min = 0.949998
+linear_accel_max = 0.949998
 scale_curve = SubResource("CurveTexture_f86yn")
 alpha_curve = SubResource("CurveTexture_pfv6b")
-turbulence_enabled = true
-turbulence_influence_min = 0.002
-turbulence_influence_max = 0.002
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+turbulence_noise_speed = Vector3(45.23, 0, 0)
+turbulence_influence_min = 0.241
+turbulence_influence_max = 0.241
 turbulence_initial_displacement_min = 1.49012e-06
 turbulence_initial_displacement_max = 1.49012e-06
 
@@ -410,8 +414,8 @@ use_particle_trails = true
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_wqi24"]
 material = SubResource("StandardMaterial3D_vw2pf")
 shape = 0
-size = 1.409
-section_length = 1.5
+size = 0.475
+section_length = 3.0
 section_segments = 5
 curve = SubResource("Curve_utit6")
 
@@ -461,7 +465,7 @@ current = true
 transform = Transform3D(-4.37114e-08, -0.0697565, 0.997564, 0, 0.997564, 0.0697565, -1, 3.04915e-09, -4.36049e-08, 24, 8, 1)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 15, 9.70387, 0)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 88, 15, 0)
 amount = 32
 amount_ratio = 0.75
 lifetime = 8.0
