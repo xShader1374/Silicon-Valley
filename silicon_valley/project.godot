@@ -37,8 +37,3 @@ buffering/agile_event_flushing=true
 
 common/physics_jitter_fix=0.0
 common/physics_interpolation=true
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"

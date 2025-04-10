@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://2612pt7d3ymk"]
+[gd_scene load_steps=21 format=3 uid="uid://2612pt7d3ymk"]
 
 [ext_resource type="PackedScene" uid="uid://di7i1pgp2i2ei" path="res://assets/Models/Cars/Car_6/Car6.blend" id="1_6j2xu"]
-[ext_resource type="Texture2D" uid="uid://cwlf3wwexqfhy" path="res://assets/Sky Stars/1645036907_4-abrakadabra-fun-p-zvezdnoe-nebo-na-prozrachnom-fone-6-3791544497.png" id="1_tct62"]
+[ext_resource type="Texture2D" uid="uid://dxglujtryyovp" path="res://assets/Sky Stars/moon-texture.png" id="1_nhrti"]
+[ext_resource type="Texture2D" uid="uid://3y0b07w8w4xl" path="res://assets/Sky Stars/5436444822_66525ce22d_b-2037829912.jpg" id="2_pfv6b"]
 [ext_resource type="PackedScene" uid="uid://bb28r2qh6ehkp" path="res://assets/Models/Wheel/Wheel.blend" id="2_tct62"]
 
 [sub_resource type="Shader" id="Shader_nhrti"]
@@ -304,21 +305,6 @@ void sky()
 	}
 }"
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_pfv6b"]
-seed = 255
-frequency = 0.0075
-offset = Vector3(-298.55, -51.4, 0)
-fractal_octaves = 10
-fractal_lacunarity = 3.055
-fractal_gain = 0.365
-fractal_weighted_strength = 0.35
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_plo8f"]
-in_3d_space = true
-seamless = true
-seamless_blend_skirt = 1.0
-noise = SubResource("FastNoiseLite_pfv6b")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sgw08"]
 shader = SubResource("Shader_nhrti")
 shader_parameter/day_top_color = Color(0.1, 0.6, 1, 1)
@@ -333,7 +319,7 @@ shader_parameter/sun_color = Color(10, 8, 1, 1)
 shader_parameter/sun_sunset_color = Color(10, 0, 0, 1)
 shader_parameter/sun_size = 0.2
 shader_parameter/sun_blur = 10.0
-shader_parameter/moon_albedo_texture = SubResource("NoiseTexture2D_plo8f")
+shader_parameter/moon_albedo_texture = ExtResource("1_nhrti")
 shader_parameter/moon_color = Color(1, 0.95, 0.7, 1)
 shader_parameter/moon_size = 0.115
 shader_parameter/moon_blur = 0.15
@@ -344,11 +330,11 @@ shader_parameter/clouds_bottom_color = Color(0.83, 0.83, 0.94, 1)
 shader_parameter/clouds_speed = 2.5
 shader_parameter/clouds_direction = 0.2
 shader_parameter/clouds_scale = 2.5
-shader_parameter/clouds_cutoff = 0.3
+shader_parameter/clouds_cutoff = 0.45
 shader_parameter/clouds_fuzziness = 0.45
-shader_parameter/clouds_weight = 0.45
+shader_parameter/clouds_weight = 0.95
 shader_parameter/clouds_blur = 0.25
-shader_parameter/stars_texture = ExtResource("1_tct62")
+shader_parameter/stars_texture = ExtResource("2_pfv6b")
 shader_parameter/stars_speed = 1.0
 shader_parameter/overwritten_time = 0.0
 
@@ -358,9 +344,76 @@ sky_material = SubResource("ShaderMaterial_sgw08")
 [sub_resource type="Environment" id="Environment_rtw2f"]
 background_mode = 2
 sky = SubResource("Sky_8ln24")
-ambient_light_source = 3
+ambient_light_sky_contribution = 0.05
 reflected_light_source = 2
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhrti"]
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+metallic = 0.65
+metallic_specular = 0.91
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_pfv6b"]
+material = SubResource("StandardMaterial3D_nhrti")
+size = Vector3(800, 1, 800)
+
+[sub_resource type="Curve" id="Curve_nhrti"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.8, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_pfv6b"]
+curve = SubResource("Curve_nhrti")
+
+[sub_resource type="Curve" id="Curve_85uyl"]
+_data = [Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_f86yn"]
+curve = SubResource("Curve_85uyl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nhrti"]
+particle_flag_align_y = true
+emission_shape = 3
+emission_box_extents = Vector3(48, 16, 32)
+initial_velocity_min = 4.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_f86yn")
+alpha_curve = SubResource("CurveTexture_pfv6b")
+turbulence_enabled = true
+turbulence_influence_min = 0.002
+turbulence_influence_max = 0.002
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibfo0"]
+blend_mode = 1
+cull_mode = 2
+use_particle_trails = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_8dov7"]
+material = SubResource("StandardMaterial3D_ibfo0")
+
+[sub_resource type="Curve" id="Curve_utit6"]
+_data = [Vector2(0, 0), 0.0, 3.0, 0, 0, Vector2(0.5, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vw2pf"]
+blend_mode = 1
+cull_mode = 2
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_wqi24"]
+material = SubResource("StandardMaterial3D_vw2pf")
+shape = 0
+size = 1.409
+section_length = 1.5
+section_segments = 5
+curve = SubResource("Curve_utit6")
 
 [node name="MainMenu3DScene" type="Node3D"]
 
@@ -377,23 +430,28 @@ directional_shadow_blend_splits = true
 [node name="MoonLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.766044, 0.219846, 0.604023, -8.21505e-08, -0.939693, 0.34202, 0.642788, 0.262003, 0.719846, 0, 0, 0)
 light_color = Color(0.492, 0.5084, 0.82, 1)
-light_energy = 0.5
+light_energy = 0.45
 shadow_enabled = true
 directional_shadow_blend_splits = true
 
 [node name="Car6" parent="." instance=ExtResource("1_6j2xu")]
+transform = Transform3D(0.993584, -0.113092, 0.00130623, 0.113071, 0.993009, -0.033884, 0.0025349, 0.0338143, 0.999425, 0, 0.19143, 0)
 
 [node name="Wheel" parent="Car6" instance=ExtResource("2_tct62")]
-transform = Transform3D(0.863356, -0.498459, 0.0784591, 0.5, 0.866025, 0, -0.0679476, 0.0392295, 0.996917, 4.75, 0.845, -7.15)
+transform = Transform3D(0.91418, -0.397239, 0.0804828, 0.396569, 0.917669, 0.0248369, -0.0837228, 0.00921147, 0.996446, 4.79694, 0.060135, -7.16832)
 
 [node name="Wheel2" parent="Car6" instance=ExtResource("2_tct62")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 6, 0, 7.45)
+transform = Transform3D(-0.113071, 0.993584, 0.0025349, -0.993009, -0.113092, 0.0338143, 0.033884, 0.00130623, 0.999425, 5.95874, -0.616726, 7.46004)
 
 [node name="Wheel4" parent="Car6" instance=ExtResource("2_tct62")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -31, 0, 16)
+transform = Transform3D(-0.113071, 0.993584, 0.0025349, -0.993009, -0.113092, 0.0338143, 0.033884, 0.00130623, 0.999425, -30.7822, 3.85678, 15.9568)
 
 [node name="Wheel3" parent="Car6" instance=ExtResource("2_tct62")]
-transform = Transform3D(0.130899, 0.0856578, -0.987688, -0.547563, 0.836764, 0, 0.826462, 0.540822, 0.156434, -4.5, 1.98, -13.81)
+transform = Transform3D(0.0702407, 0.181093, -0.980954, -0.530592, 0.839514, 0.116989, 0.844711, 0.51227, 0.155054, -4.3035, 1.82327, -13.7128)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_pfv6b")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8, 9, -24)
@@ -401,3 +459,18 @@ current = true
 
 [node name="Camera3D_Alt" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.0697565, 0.997564, 0, 0.997564, 0.0697565, -1, 3.04915e-09, -4.36049e-08, 24, 8, 1)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 15, 9.70387, 0)
+amount = 32
+amount_ratio = 0.75
+lifetime = 8.0
+speed_scale = 3.0
+fixed_fps = 0
+transform_align = 2
+trail_enabled = true
+trail_lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_nhrti")
+draw_passes = 2
+draw_pass_1 = SubResource("QuadMesh_8dov7")
+draw_pass_2 = SubResource("RibbonTrailMesh_wqi24")
