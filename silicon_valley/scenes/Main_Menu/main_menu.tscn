@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dblo1acmeuiyl"]
+[gd_scene load_steps=23 format=3 uid="uid://dblo1acmeuiyl"]
 
 [ext_resource type="Script" uid="uid://dwfdhwgqyprql" path="res://scripts/main_menu.gd" id="1_xld3r"]
 [ext_resource type="PackedScene" uid="uid://2612pt7d3ymk" path="res://scenes/Main_Menu/main_menu_3d_scene.tscn" id="2_dcss6"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://c7t0iwyqx24uh" path="res://Themes/Fonts/Perfect DOS VGA 437 Win.ttf" id="3_eecad"]
 [ext_resource type="Texture2D" uid="uid://3y0b07w8w4xl" path="res://assets/Sky Stars/5436444822_66525ce22d_b-2037829912.jpg" id="3_hii1o"]
 [ext_resource type="Script" uid="uid://decqxsttgila4" path="res://CustomClasses/custom_button.gd" id="6_hii1o"]
+[ext_resource type="Texture2D" uid="uid://ijallsfxme4h" path="res://assets/Focus-Nintendo.png" id="6_xo4qd"]
 
 [sub_resource type="Shader" id="Shader_nhrti"]
 code = "shader_type sky;
@@ -373,18 +374,57 @@ shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbwyv"]
 bg_color = Color(0.337255, 0.337255, 0.305882, 1)
+draw_center = false
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
-border_color = Color(0.572549, 0.560784, 0.509804, 1)
+border_color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dd4i"]
+[sub_resource type="Gradient" id="Gradient_xo4qd"]
+colors = PackedColorArray(0.301632, 0.418775, 0.496579, 1, 0.74902, 0.74902, 0.74902, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sgxtb"]
+gradient = SubResource("Gradient_xo4qd")
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.2)
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8sxrh"]
 content_margin_left = 24.0
-content_margin_top = 16.0
+content_margin_top = 8.0
 content_margin_right = 24.0
-content_margin_bottom = 16.0
-bg_color = Color(0, 0, 0, 1)
+content_margin_bottom = 8.0
+texture = SubResource("GradientTexture2D_sgxtb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sgxtb"]
+texture = ExtResource("6_xo4qd")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Gradient" id="Gradient_8sxrh"]
+colors = PackedColorArray(0.74902, 0.74902, 0.74902, 1, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gl8cu"]
+gradient = SubResource("Gradient_8sxrh")
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wl4qf"]
+content_margin_left = 24.0
+content_margin_top = 8.0
+content_margin_right = 24.0
+content_margin_bottom = 8.0
+texture = SubResource("GradientTexture2D_gl8cu")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -425,9 +465,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 64
+theme_override_constants/margin_left = 128
 theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 64
+theme_override_constants/margin_right = 128
 theme_override_constants/margin_bottom = 64
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
@@ -461,6 +501,10 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mbwyv")
 
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8sxrh")
+
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
@@ -476,8 +520,11 @@ alignment = 1
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+theme_override_styles/focus = SubResource("StyleBoxTexture_sgxtb")
+theme_override_styles/normal = SubResource("StyleBoxTexture_wl4qf")
 text = "New Game"
 script = ExtResource("6_hii1o")
 metadata/_custom_type_script = "uid://decqxsttgila4"
@@ -485,23 +532,38 @@ metadata/_custom_type_script = "uid://decqxsttgila4"
 [node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+theme_override_styles/focus = SubResource("StyleBoxTexture_sgxtb")
+theme_override_styles/normal = SubResource("StyleBoxTexture_wl4qf")
 text = "Continue"
+script = ExtResource("6_hii1o")
+metadata/_custom_type_script = "uid://decqxsttgila4"
 
 [node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+theme_override_styles/focus = SubResource("StyleBoxTexture_sgxtb")
+theme_override_styles/normal = SubResource("StyleBoxTexture_wl4qf")
 text = "Settings"
+script = ExtResource("6_hii1o")
+metadata/_custom_type_script = "uid://decqxsttgila4"
 
 [node name="quitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+theme_override_styles/focus = SubResource("StyleBoxTexture_sgxtb")
+theme_override_styles/normal = SubResource("StyleBoxTexture_wl4qf")
 text = "Quit"
+script = ExtResource("6_hii1o")
+metadata/_custom_type_script = "uid://decqxsttgila4"
 
 [connection signal="resized" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer" to="." method="_on_buttons_panel_container_resized"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer/quitButton" to="." method="_on_quit_button_pressed"]

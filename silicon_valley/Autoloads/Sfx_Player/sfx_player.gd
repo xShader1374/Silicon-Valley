@@ -3,8 +3,8 @@ extends Node
 ## TODO: Make this system positional in the future, using AudioStreamPlayer2Ds instead of the default ones (if Vector2.ZERO, will still use the default ones)
 
 const SFXs: Array[AudioStream] = [
-	preload("uid://cuksmyapbuq27"), # "res://Audio/SFXs/Main_Menu/fried fish.mp3"
-	preload("uid://b1ly8tavxc5t8") # "res://Audio/SFXs/Main_Menu/tubozzi-1.mp3"
+	preload("uid://cuksmyapbuq27"), # 0: "res://Audio/SFXs/Main_Menu/fried fish.mp3"
+	preload("uid://b1ly8tavxc5t8")  # 1: "res://Audio/SFXs/Main_Menu/tubozzi-1.mp3"
 ]
 
 ## Plays a sound effect with the sound effect id, if the pitch min and max are used as args,
