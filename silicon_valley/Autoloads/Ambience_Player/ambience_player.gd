@@ -4,7 +4,7 @@ extends AudioStreamPlayer
 ## you can change the process mode from "always" to "inherit".
 
 const Ambiences: Array[AudioStream] = [
-	
+	preload("uid://bsdt08ayvd5ms") # 0: "res://Audio/Ambience/ambient_loop2-49433.mp3"
 ]
 
 func transitionFromCurrentToNew(new_stream: AudioStream, total_duration: float) -> void:

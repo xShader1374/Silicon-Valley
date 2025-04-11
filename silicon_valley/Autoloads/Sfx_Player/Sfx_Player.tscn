@@ -7,3 +7,9 @@ process_mode = 3
 max_polyphony = 3
 bus = &"Ost"
 script = ExtResource("1_v3exq")
+
+[node name="3DSFXsContainer" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="2DSFXsContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
