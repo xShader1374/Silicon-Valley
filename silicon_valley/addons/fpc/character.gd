@@ -32,6 +32,8 @@ extends CharacterBody3D
 ## The reticle file to import at runtime. By default are in res://addons/fpc/reticles/. Set to an empty string to remove.
 @export_file var default_reticle
 
+
+
 #endregion
 
 #region Nodes Export Group
@@ -114,6 +116,10 @@ extends CharacterBody3D
 ## If your game changes the gravity value during gameplay, check this property to allow the player to experience the change in gravity.
 @export var dynamic_gravity : bool = false
 
+@export var is_double_jump_enabled :bool = false
+@export var double_jump_cooldown_frames :int = 5 # frames to wait until you can make the double jump after the jump
+@export var double_jump_multiplier = 1.5 
+@export var is_dash_enabled : bool = false
 #endregion
 
 #region Member Variable Initialization
@@ -135,6 +141,11 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity") 
 # Stores mouse input for rotating the camera in the physics process
 var mouseInput : Vector2 = Vector2(0,0)
 
+
+var is_second_jump :bool = false
+var is_jumping =false
+var jump_cooldown = double_jump_cooldown_frames
+
 #endregion
 
 
@@ -155,14 +166,17 @@ func _ready():
 	initialize_animations()
 	check_controls()
 	enter_normal_state()
-
+	
 
 func _process(_delta):
 	if pausing_enabled:
 		handle_pausing()
 
 	update_debug_menu_per_frame()
-
+	if !is_on_floor():
+		jump_cooldown = max(0,jump_cooldown-1)
+	else:
+		jump_cooldown = double_jump_cooldown_frames
 
 func _physics_process(delta): # Most things happen here.
 	# Gravity
@@ -170,7 +184,8 @@ func _physics_process(delta): # Most things happen here.
 		gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	if not is_on_floor() and gravity and gravity_enabled:
 		velocity.y -= gravity * delta
-
+	if is_on_floor():
+		is_second_jump = false
 	handle_jumping()
 
 	var input_dir = Vector2.ZERO
@@ -213,10 +228,16 @@ func handle_jumping():
 		else:
 			if Input.is_action_just_pressed(controls.JUMP) and is_on_floor() and !low_ceiling:
 				if jump_animation:
+					is_jumping = true
 					JUMP_ANIMATION.play("jump", 0.25)
 				velocity.y += jump_velocity
-
-
+			if is_double_jump_enabled:
+				if Input.is_action_just_pressed(controls.JUMP) and !is_on_floor() and !low_ceiling and jump_cooldown==0 and not is_second_jump:
+					if jump_animation:
+						is_jumping = true
+						JUMP_ANIMATION.play("jump", 0.25)
+					velocity.y += jump_velocity*double_jump_multiplier
+					is_second_jump = true
 func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)
 	direction = Vector3(direction.x, 0, direction.y)

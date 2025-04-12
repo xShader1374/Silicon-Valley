@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://vptnhe5q1cue"]
+
+[ext_resource type="Material" path="res://addons/prototype_mini_bundle/M_prototype_dark.tres" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://0vmntyr615js" path="res://addons/prototype_mini_bundle/prop_cube.tscn" id="2_7mycd"]
+[ext_resource type="PackedScene" uid="uid://c5hkhu8upxsf7" path="res://addons/prototype_mini_bundle/prop_cylinder.tscn" id="3_272bh"]
+[ext_resource type="PackedScene" uid="uid://ciuwt2yj4hcu2" path="res://addons/prototype_mini_bundle/prop_prism.tscn" id="4_5vw27"]
+[ext_resource type="PackedScene" uid="uid://dxvxy65pv5hoe" path="res://addons/prototype_mini_bundle/prop_sphere.tscn" id="5_kek77"]
+[ext_resource type="PackedScene" uid="uid://caqayjkbvlel5" path="res://addons/prototype_mini_bundle/prop_torus.tscn" id="6_4c57u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7dm0k"]
+sky_curve = 0.00937503
+ground_bottom_color = Color(0.0849149, 0.0677518, 0.0478126, 1)
+ground_horizon_color = Color(0.523702, 0.534088, 0.550484, 1)
+ground_curve = 0.0263902
+
+[sub_resource type="Sky" id="Sky_ig7tw"]
+sky_material = SubResource("ProceduralSkyMaterial_7dm0k")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_ig7tw")
+tonemap_mode = 3
+ssao_enabled = true
+glow_enabled = true
+fog_light_color = Color(0.260227, 0.285097, 0.324193, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h2yge"]
+material = ExtResource("1_ig7tw")
+size = Vector3(30, 1, 30)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ig7tw"]
+points = PackedVector3Array(-15, -0.5, -15, -15, 0.5, -15, 15, -0.5, -15, -15, -0.5, 15, -15, 0.5, 15, 15, 0.5, -15, 15, -0.5, 15, 15, 0.5, 15)
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.930366, -0.317512, 0.183316, 2.78059e-08, 0.5, 0.866025, -0.366631, 0.805721, -0.465183, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0xm2m")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_h2yge")
+metadata/_edit_group_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_ig7tw")
+
+[node name="PropCube" parent="." instance=ExtResource("2_7mycd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.71817, 0.5, -3.18385)
+metadata/_edit_group_ = true
+
+[node name="PropCylinder" parent="." instance=ExtResource("3_272bh")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -2.41016, 1, -0.985289)
+skeleton = NodePath("../PropCube")
+metadata/_edit_group_ = true
+
+[node name="PropPrism" parent="." instance=ExtResource("4_5vw27")]
+transform = Transform3D(0.527668, 0, 0.849451, 0, 1, 0, -0.849451, 0, 0.527668, 3.01147, 0.5, 0.124167)
+
+[node name="PropSphere" parent="." instance=ExtResource("5_kek77")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 1.57846, 0.5, 1.60622)
+
+[node name="PropTorus" parent="." instance=ExtResource("6_4c57u")]
+transform = Transform3D(0.977134, 0, -0.212621, 0, 1, 0, 0.212621, 0, 0.977134, -1.2116, 0.25, 1.43875)

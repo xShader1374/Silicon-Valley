@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6o3ho1biine3"]
+
+[ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_g7g4h"]
+[ext_resource type="Material" uid="uid://dyx4l6ea0am6f" path="res://addons/prototype_mini_bundle/M_prototype_green.tres" id="1_j8ivh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g7g4h"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_j8ivh"]
+sky_material = SubResource("ProceduralSkyMaterial_g7g4h")
+
+[sub_resource type="Environment" id="Environment_nd71p"]
+background_mode = 2
+sky = SubResource("Sky_j8ivh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_j8ivh"]
+size = Vector3(50, 0.1, 50)
+
+[node name="TestScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nd71p")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+use_collision = true
+mesh = SubResource("BoxMesh_j8ivh")
+material = ExtResource("1_j8ivh")
+
+[node name="Character" parent="." instance=ExtResource("1_g7g4h")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.043566, 0.10798, -0.0766902)
+continuous_jumping = false
+is_double_jump_enabled = true
+double_jump_multiplier = 1.0
