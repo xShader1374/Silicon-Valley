@@ -189,7 +189,9 @@ func _input(event: InputEvent) -> void:
 		parry = true
 		
 		parry_timer.start(0.3)
-		parry_timer.timeout.connect(no_more_parry)
+		
+		if !parry_timer.timeout.is_connected(no_more_parry):
+			parry_timer.timeout.connect(no_more_parry)
 	elif event.is_action_released("rmb"):
 		is_defending = false
 		weapon.default()
@@ -533,7 +535,9 @@ func _on_damage_area_body_entered(body: Node3D) -> void:
 				get_tree().paused = true
 				
 				pause_timer.start(0.1)
-				pause_timer.timeout.connect(unpause)
+				
+				if !pause_timer.timeout.is_connected(unpause):
+					pause_timer.timeout.connect(unpause)
 			else:
 				SfxPlayer.play(4)
 

@@ -1,26 +1,111 @@
-[gd_scene load_steps=4 format=3 uid="uid://syo086bn4akp"]
+[gd_scene load_steps=8 format=3 uid="uid://syo086bn4akp"]
 
 [ext_resource type="Script" uid="uid://c3elbwxpk1ot8" path="res://scripts/weapon.gd" id="1_xasec"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_6nu22"]
-size = Vector3(0.134338, 0.166504, 0.158203)
+[sub_resource type="Animation" id="Animation_uxn4k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
-[sub_resource type="BoxMesh" id="BoxMesh_xasec"]
+[sub_resource type="Animation" id="Animation_8fp1k"]
+resource_name = "defend"
+length = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.785398)]
+}
+
+[sub_resource type="Animation" id="Animation_cjr6y"]
+resource_name = "defend_reset"
+length = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.785398), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xasec"]
+resource_name = "hit"
+length = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.785398, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bmw2d"]
+resource_name = "hit_reset"
+length = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.785398, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bmw2d"]
+_data = {
+&"RESET": SubResource("Animation_uxn4k"),
+&"defend": SubResource("Animation_8fp1k"),
+&"defend_reset": SubResource("Animation_cjr6y"),
+&"hit": SubResource("Animation_xasec"),
+&"hit_reset": SubResource("Animation_bmw2d")
+}
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_xasec")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="." groups=["weapons"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.320851, 0.26158, 0)
 collision_layer = 2
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00717163, 0.67309, 0.00683594)
-shape = SubResource("BoxShape3D_6nu22")
+transform = Transform3D(1.14, 0, 0, 0, 1.14, 0, 0, 0, 1.14, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
 transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0.282573, 0)
-mesh = SubResource("BoxMesh_xasec")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bmw2d")
+}

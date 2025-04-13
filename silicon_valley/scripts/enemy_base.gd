@@ -16,17 +16,17 @@ func _ready() -> void:
 	mesh_instance_3d.mesh = mesh
 	health = max_health
 
-func take_damage(amount: int):
+func take_damage(amount: int) -> void:
 	health -= amount
 	
 	if health <= 0:
 		die()
 
-func die():
+func die() -> void:
 	queue_free()
 
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.is_in_group("weapons"):
-		var weapon = body.get_parent()
+		var weapon: Weapon = body.get_parent()
 		take_damage(weapon.damage)
