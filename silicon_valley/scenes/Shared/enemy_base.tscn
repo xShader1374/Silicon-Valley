@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn07546g7omqi"]
+[gd_scene load_steps=5 format=3 uid="uid://dn07546g7omqi"]
 
 [ext_resource type="Script" uid="uid://b4pb48ctog2hp" path="res://scripts/enemy_base.gd" id="1_fr7lv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pywgl"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_alwl0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fr7lv"]
 
@@ -12,8 +16,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17859, 0)
 motion_mode = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_pywgl")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_alwl0")
 
 [node name="Area3D" type="Area3D" parent="CharacterBody3D"]
 collision_mask = 3

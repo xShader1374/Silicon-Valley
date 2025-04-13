@@ -19,9 +19,14 @@ var is_attacking: bool = false
 var is_defending: bool = false
 
 func _ready() -> void:
-	collision_shape_3d.shape = shape
-	mesh_instance_3d.mesh = mesh
-	collision_shape_3d.position = collision_pos
+	if mesh:
+		collision_shape_3d.shape = shape
+	
+	if shape:
+		mesh_instance_3d.mesh = mesh
+	
+	if collision_pos:
+		collision_shape_3d.position = collision_pos
 
 func set_damage(amount: int) -> void:
 	damage = amount
