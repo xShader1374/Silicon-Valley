@@ -138,10 +138,22 @@ var mouseInput : Vector2 = Vector2(0,0)
 #endregion
 
 
+@onready var weapon: Node3D = $Head/Camera/Node3D
+@onready var parry_timer: Timer = $ParryTimer
+@onready var pause_timer: Timer = $PauseTimer
+@onready var damage_area: Area3D = $DamageArea
+
+@export var max_health: int = 100
+
+var health: int = 0
+var parry: bool = false
+var is_defending: bool = false
 
 #region Main Control Flow
 
 func _ready():
+	health = max_health
+
 	#It is safe to comment this line if your game doesn't start with the mouse captured
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -162,6 +174,29 @@ func _process(_delta):
 		handle_pausing()
 
 	update_debug_menu_per_frame()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("lmb"):
+		weapon.attack()
+	elif event.is_action_released("lmb"):
+		weapon.default()
+	
+	if event.is_action_pressed("rmb"):
+		is_defending = true
+		weapon.defend()
+		
+		parry = true
+		
+		parry_timer.start(0.3)
+		parry_timer.timeout.connect(no_more_parry)
+	elif event.is_action_released("rmb"):
+		is_defending = false
+		weapon.default()
+
+
+func no_more_parry():
+	parry = false
 
 
 func _physics_process(delta): # Most things happen here.
@@ -486,3 +521,22 @@ func handle_pausing():
 				#get_tree().paused = false
 
 #endregion
+
+
+func _on_damage_area_body_entered(body: Node3D) -> void:
+	if body.is_in_group("weapons"):
+		var enemy_weapon = body.get_parent()
+		
+		if is_defending:
+			if parry:
+				SfxPlayer.play(5)
+				get_tree().paused = true
+				
+				pause_timer.start(0.1)
+				pause_timer.timeout.connect(unpause)
+			else:
+				SfxPlayer.play(4)
+
+
+func unpause():
+	get_tree().paused = false

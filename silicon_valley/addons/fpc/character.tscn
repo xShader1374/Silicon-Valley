@@ -1,6 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://cc1m2a1obsyn4"]
+[gd_scene load_steps=24 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://dljai4qqwowxk" path="res://addons/fpc/character.gd" id="1_0t4e8"]
+[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/weapon.tscn" id="2_bx7cj"]
 [ext_resource type="Script" uid="uid://cxyxejk5u45" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://cnxf3mdorlb3n" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 
@@ -380,6 +381,8 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bx7cj"]
+
 [node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
@@ -420,6 +423,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 current = true
+
+[node name="Node3D" parent="Head/Camera" instance=ExtResource("2_bx7cj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72356, -0.294577, -0.961302)
 
 [node name="HeadbobAnimation" type="AnimationPlayer" parent="Head"]
 libraries = {
@@ -465,3 +471,17 @@ target_position = Vector3(0, 0.5, 0)
 
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
+
+[node name="ParryTimer" type="Timer" parent="."]
+
+[node name="DamageArea" type="Area3D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992388, 0)
+shape = SubResource("CapsuleShape3D_bx7cj")
+
+[node name="PauseTimer" type="Timer" parent="."]
+process_mode = 3
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]

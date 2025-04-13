@@ -1,9 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://cs4drhmc1bql5"]
+[gd_scene load_steps=20 format=3 uid="uid://cs4drhmc1bql5"]
 
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_e18vq"]
+[ext_resource type="Script" uid="uid://c1ed2t0gcqlf5" path="res://scripts/test_world.gd" id="1_kt6p6"]
 [ext_resource type="Texture2D" uid="uid://pe7a4weirj2g" path="res://textures/dark.png" id="2_08fdt"]
 [ext_resource type="Texture2D" uid="uid://cxjxvqmf4boxq" path="res://textures/green.png" id="3_q4clv"]
 [ext_resource type="Texture2D" uid="uid://dsv4jm4vydflb" path="res://textures/orange.png" id="4_1ns5t"]
+[ext_resource type="PackedScene" uid="uid://dn07546g7omqi" path="res://scenes/enemy_base.tscn" id="5_lf0gk"]
+[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/weapon.tscn" id="7_uu1iw"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_edcox"]
 ground_color = Color(0.160784, 0.815686, 0.905882, 1)
@@ -60,10 +63,15 @@ roughness = 0.5
 uv1_triplanar = true
 uv1_triplanar_sharpness = 0.000850145
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lf0gk"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cnaw2"]
+
 [node name="test_world" type="Node3D"]
+script = ExtResource("1_kt6p6")
 
 [node name="Character" parent="." instance=ExtResource("1_e18vq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(-0.981484, 0, -0.191546, 0, 1, 0, 0.191546, 0, -0.981484, 0, 1, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_20rw3")
@@ -104,3 +112,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 3, -15.5)
 use_collision = true
 size = Vector3(19, 8, 1)
 material = SubResource("StandardMaterial3D_7j4uu")
+
+[node name="EnemyBase" parent="." instance=ExtResource("5_lf0gk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.139965, 3.9871)
+shape = SubResource("CapsuleShape3D_lf0gk")
+mesh = SubResource("CapsuleMesh_cnaw2")
+
+[node name="EnemyWeapon" parent="EnemyBase" instance=ExtResource("7_uu1iw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.976007, 0.797821, 0)
