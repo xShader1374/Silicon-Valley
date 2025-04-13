@@ -544,3 +544,20 @@ func _on_damage_area_body_entered(body: Node3D) -> void:
 
 func unpause():
 	get_tree().paused = false
+
+
+func _on_damage_area_area_entered(area: Area3D) -> void:
+	if area.is_in_group("weapons"):
+		var enemy_weapon = area.get_parent()
+		
+		if is_defending:
+			if parry:
+				SfxPlayer.play(5)
+				get_tree().paused = true
+				
+				pause_timer.start(0.1)
+				
+				if !pause_timer.timeout.is_connected(unpause):
+					pause_timer.timeout.connect(unpause)
+			else:
+				SfxPlayer.play(4)
