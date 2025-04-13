@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://pe7a4weirj2g" path="res://textures/dark.png" id="2_08fdt"]
 [ext_resource type="Texture2D" uid="uid://cxjxvqmf4boxq" path="res://textures/green.png" id="3_q4clv"]
 [ext_resource type="Texture2D" uid="uid://dsv4jm4vydflb" path="res://textures/orange.png" id="4_1ns5t"]
-[ext_resource type="PackedScene" uid="uid://dn07546g7omqi" path="res://scenes/enemy_base.tscn" id="5_lf0gk"]
-[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/weapon.tscn" id="7_uu1iw"]
+[ext_resource type="PackedScene" uid="uid://dn07546g7omqi" path="res://scenes/Shared/enemy_base.tscn" id="5_lf0gk"]
+[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/Shared/weapon.tscn" id="7_uu1iw"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_edcox"]
 ground_color = Color(0.160784, 0.815686, 0.905882, 1)
@@ -72,6 +72,21 @@ size = Vector3(0.15, 0.15, 0.15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_uu1iw"]
 
+[sub_resource type="Animation" id="Animation_uu1iw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyBase/EnemyWeapon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_kt6p6"]
 resource_name = "rotate_enemy_weapon"
 loop_mode = 1
@@ -86,21 +101,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(-6.28319, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_uu1iw"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("EnemyBase/EnemyWeapon:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4tg7h"]

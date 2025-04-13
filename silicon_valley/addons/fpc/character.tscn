@@ -1,7 +1,7 @@
 [gd_scene load_steps=26 format=3 uid="uid://cc1m2a1obsyn4"]
 
 [ext_resource type="Script" uid="uid://dljai4qqwowxk" path="res://addons/fpc/character.gd" id="1_0t4e8"]
-[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/weapon.tscn" id="2_bx7cj"]
+[ext_resource type="PackedScene" uid="uid://syo086bn4akp" path="res://scenes/Shared/weapon.tscn" id="2_bx7cj"]
 [ext_resource type="Script" uid="uid://cxyxejk5u45" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://cnxf3mdorlb3n" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
 
