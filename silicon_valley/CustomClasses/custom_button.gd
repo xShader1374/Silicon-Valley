@@ -1,14 +1,15 @@
 extends Button
 class_name CustomButton
 
-@export var sfx_id_mouse_entered: int = 4
-@export var sfx_id_focus_entered: int = 4
-@export var sfx_id_pressed: int = 5
+@export var sfx_id_mouse_entered: int = 2
+@export var sfx_id_focus_entered: int = 2
+@export var sfx_id_pressed: int = 3
 @export var sfx_id_mouse_exited: int = 0
 @export var sfx_id_focus_exited: int = 0
 
 func _init() -> void:
-	self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	pass
+	#self.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,21 +49,20 @@ func _on_button_down() -> void:
 	pass
 
 func _on_button_pressed() -> void:
-	#SfxPlayer.play(sfx_id_pressed)
-	pass
+	SfxPlayer.play(sfx_id_pressed)
 
 func _on_button_up() -> void:
 	pass
 
 func _on_focus_entered() -> void:
-	#SfxPlayer.play(4, 0.95, 1.05)
+	SfxPlayer.play(sfx_id_focus_entered, 0.95, 1.05)
 	animationZoomIn()
 
 func _on_focus_exited() -> void:
 	animationZoomOut()
 
 func _on_mouse_entered() -> void:
-	#SfxPlayer.play(4, 0.95, 1.05)
+	SfxPlayer.play(sfx_id_mouse_entered, 0.95, 1.05)
 	animationZoomIn()
 
 func _on_mouse_exited() -> void:

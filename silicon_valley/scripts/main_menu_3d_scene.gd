@@ -2,7 +2,7 @@ extends Node3D
 
 @export var level_name: String = ""
 @export_category("Ambience")
-## Ambience's index: 
+## Ambience's index:
 ## -1 for no Ambience Change
 ## -2 for Ambience Stop
 @export var AMBIENCE_ID: int = -1
