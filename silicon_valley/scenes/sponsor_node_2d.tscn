@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6nuu3vmt11tv"]
+[gd_scene load_steps=10 format=3 uid="uid://b6nuu3vmt11tv"]
 
 [ext_resource type="Script" uid="uid://bnusp3tpueff" path="res://scripts/sponsor_node_2d.gd" id="1_h1so0"]
 [ext_resource type="Texture2D" uid="uid://br0etwwraovch" path="res://assets/Sponsors/1.png" id="2_iqoh1"]
 [ext_resource type="Texture2D" uid="uid://bgavijo2xo2p7" path="res://assets/Sponsors/fried-fish-logo-1.png" id="3_iqoh1"]
 [ext_resource type="Texture2D" uid="uid://3tso50di8a0c" path="res://assets/Sponsors/Tubozzi-SPA-Logo-SVG.svg" id="4_iqoh1"]
+[ext_resource type="VideoStream" uid="uid://bowyvpj5wrurl" path="res://assets/Sponsors/friedfish_intro.ogv" id="4_ycjst"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_iqoh1"]
 font_size = 72
@@ -85,10 +86,34 @@ tracks/5/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0)]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sponsor2VideoStreamPlayer:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sponsor2VideoStreamPlayer:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_iqoh1"]
 resource_name = "show_sponsors"
-length = 3.0
+length = 4.0
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -104,12 +129,12 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath("Sponsor2TextureRect:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1, 1.3, 1.7, 2),
+"times": PackedFloat32Array(1, 1.3, 2.6, 2.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
@@ -128,7 +153,7 @@ tracks/2/keys = {
 }
 tracks/3/type = "value"
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/path = NodePath("Sponsor2TextureRect:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
@@ -145,7 +170,7 @@ tracks/4/path = NodePath("Sponsor3VBoxContainer:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(2.9),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -157,7 +182,7 @@ tracks/5/path = NodePath("Sponsor3VBoxContainer:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(2, 2.3, 2.7, 3),
+"times": PackedFloat32Array(2.9, 3.2, 3.6, 3.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
@@ -169,7 +194,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1, 2, 2.3),
+"times": PackedFloat32Array(0, 1, 2.9, 3.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -184,6 +209,30 @@ tracks/6/keys = {
 "args": [],
 "method": &"play_tubozzi_sfx"
 }]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sponsor2VideoStreamPlayer:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1, 1.3, 2.6, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Sponsor2VideoStreamPlayer:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dfsxc"]
@@ -202,7 +251,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_h1so0")
-level_name = "Splash Screen"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -236,6 +284,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_iqoh1")
 stretch_mode = 5
+
+[node name="Sponsor2VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1916.0
+offset_bottom = 1078.0
+stream = ExtResource("4_ycjst")
+expand = true
 
 [node name="Sponsor3VBoxContainer" type="VBoxContainer" parent="."]
 visible = false

@@ -5,6 +5,8 @@ const SFXs: Array[AudioStream] = [
 	preload("uid://b1ly8tavxc5t8"), # 1: "res://Audio/SFXs/Main_Menu/tubozzi-1.mp3"
 	preload("uid://lsxfdntg1cey"),  # 2: "res://Audio/SFXs/Buttons/button-select.wav"
 	preload("uid://8vi21twlmo6o"),  # 3: "res://Audio/SFXs/Buttons/button-press.wav"
+	preload("uid://dgs08qbc3w07h"), # 4: "res://Audio/SFXs/Character/defend_sfx.mp3"
+	preload("uid://bn0i85jpdy2jk"), # 5: "res://Audio/SFXs/Character/parry_sfx.mp3"
 ]
 
 ## Plays a sound effect with the sound effect id, if the pitch min and max are used as args,

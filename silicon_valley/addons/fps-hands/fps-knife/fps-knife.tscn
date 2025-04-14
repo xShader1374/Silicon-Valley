@@ -72,24 +72,28 @@ metadata/melee = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Sketchfab_model/7a7f217d83324eff8a87cab13cb66fbd_fbx/Object_2/RootNode/Object_4" index="0"]
-bones/2/rotation = Quaternion(-0.603875, 0.708173, 0.365801, 0.00395831)
+
+bones/2/rotation = Quaternion(-0.606796, 0.703838, 0.36925, 0.00810931)
 bones/2/scale = Vector3(1, 1, 1)
-bones/3/rotation = Quaternion(0.222313, 0.472402, -0.431268, 0.735813)
+bones/3/rotation = Quaternion(0.230113, 0.474071, -0.420871, 0.738358)
 bones/3/scale = Vector3(1, 1, 1)
-bones/4/rotation = Quaternion(-0.111866, -0.0631851, 0.0247704, 0.991403)
+bones/4/rotation = Quaternion(-0.108396, -0.0571576, 0.0243484, 0.992165)
 bones/4/scale = Vector3(1, 1, 1)
 bones/5/rotation = Quaternion(0.259778, 0.217275, -0.146003, 0.929511)
-bones/6/rotation = Quaternion(0.0236882, -0.15787, -0.0791479, 0.983998)
-bones/7/rotation = Quaternion(0.0270786, -0.0747221, -0.0480236, 0.995679)
+bones/6/rotation = Quaternion(0.02244, -0.195708, -0.0784183, 0.977264)
+bones/7/rotation = Quaternion(0.0255553, -0.106099, -0.0488662, 0.992825)
 bones/7/scale = Vector3(1, 1, 1)
-bones/9/rotation = Quaternion(0.0516943, -0.14563, 0.386195, 0.90938)
-bones/10/rotation = Quaternion(-0.00963592, -0.0221408, -0.00641966, 0.999688)
+bones/9/rotation = Quaternion(0.0587372, -0.162191, 0.385208, 0.906564)
+bones/10/rotation = Quaternion(-0.00976591, -0.0426129, -0.00622109, 0.999025)
+
 bones/10/scale = Vector3(1, 1, 1)
 bones/11/rotation = Quaternion(-0.0313822, -0.119594, -0.00523462, 0.992313)
 bones/11/scale = Vector3(1, 1, 1)
 bones/13/rotation = Quaternion(0.0866404, -0.240797, 0.436886, 0.862346)
 bones/13/scale = Vector3(1, 1, 1)
-bones/14/rotation = Quaternion(0.0236587, -0.013945, 0.0239846, 0.999335)
+
+bones/14/rotation = Quaternion(0.0230715, -0.100963, 0.01468, 0.994514)
+
 bones/15/rotation = Quaternion(-0.0167528, -0.205443, 0.0181953, 0.978356)
 bones/18/rotation = Quaternion(0.0795162, 0.918156, 0.0283295, 0.387123)
 bones/18/scale = Vector3(1, 1, 1)
@@ -97,14 +101,16 @@ bones/19/rotation = Quaternion(0.0174111, -0.212182, 0.0671666, 0.974764)
 bones/20/rotation = Quaternion(0.00460997, -0.129855, 0.0655248, 0.989355)
 bones/23/rotation = Quaternion(-0.0212972, -0.170118, -0.00345776, 0.985188)
 bones/23/scale = Vector3(1, 1, 1)
-bones/26/rotation = Quaternion(0.685109, 0.594084, 0.383813, 0.174294)
-bones/27/rotation = Quaternion(0.406716, -0.364639, 0.108647, 0.830552)
-bones/28/rotation = Quaternion(0.0520786, 0.0431735, -0.0115099, 0.997643)
+
+bones/26/rotation = Quaternion(0.685669, 0.595153, 0.381149, 0.174286)
+bones/27/rotation = Quaternion(0.403075, -0.369324, 0.117589, 0.829037)
+bones/28/rotation = Quaternion(0.07094, 0.0231002, -0.000855515, 0.997213)
+
 bones/28/scale = Vector3(1, 1, 1)
 bones/29/rotation = Quaternion(0.19129, -0.148854, 0.400211, 0.883788)
 bones/29/scale = Vector3(1, 1, 1)
 bones/30/scale = Vector3(1, 1, 1)
-bones/31/rotation = Quaternion(0.0298961, 0.5653, 0.131709, 0.813754)
+
 bones/34/rotation = Quaternion(-0.00278792, 0.56518, -0.0308582, 0.824386)
 bones/35/rotation = Quaternion(0.0031676, 0.286891, -0.0179133, 0.957791)
 bones/35/scale = Vector3(1, 1, 1)
@@ -120,15 +126,18 @@ bones/43/scale = Vector3(1, 1, 1)
 bones/44/rotation = Quaternion(0.00314904, 0.360589, 0.000434484, 0.932719)
 bones/46/rotation = Quaternion(0.0519378, -0.805349, -0.0750783, 0.585729)
 bones/46/scale = Vector3(1, 1, 1)
+bones/47/rotation = Quaternion(0.0172696, 0.638289, -0.0157718, 0.769442)
 
 [node name="Object_7" parent="Sketchfab_model/7a7f217d83324eff8a87cab13cb66fbd_fbx/Object_2/RootNode/Object_4/Skeleton3D" index="0"]
 cast_shadow = 0
 
 [node name="L_wrist_Goal" parent="Sketchfab_model/7a7f217d83324eff8a87cab13cb66fbd_fbx/Object_2/RootNode/Object_4" index="2"]
-transform = Transform3D(0.690117, -0.721798, 0.0523979, -0.685532, -0.675211, -0.272281, 0.231911, 0.151986, -0.960788, 20.0213, 0.156, 10.1719)
+
+transform = Transform3D(0.673552, -0.735097, 0.0772023, -0.696933, -0.666409, -0.264921, 0.246191, 0.124634, -0.961173, 19.6478, -0.260495, 9.92166)
 
 [node name="R_wrist_Goal" parent="Sketchfab_model/7a7f217d83324eff8a87cab13cb66fbd_fbx/Object_2/RootNode/Object_4" index="3"]
-transform = Transform3D(0.430707, 0.861011, -0.270463, 0.876593, -0.470397, -0.101542, -0.214654, -0.193351, -0.957361, -19.5997, 5.13348, 11.8304)
+transform = Transform3D(0.45839, 0.82802, -0.322895, 0.848497, -0.515827, -0.118221, -0.264447, -0.219783, -0.939023, -19.3004, 5.37449, 11.9035)
+
 
 [node name="knife" parent="Sketchfab_model/7a7f217d83324eff8a87cab13cb66fbd_fbx/Object_2/RootNode/Object_4/R_wrist_Goal" index="0"]
 transform = Transform3D(-0.607028, 0.785729, -0.118938, 0.787935, 0.575636, -0.218637, -0.103325, -0.226435, -0.96853, -1.66907, -0.319012, -8.56534)
