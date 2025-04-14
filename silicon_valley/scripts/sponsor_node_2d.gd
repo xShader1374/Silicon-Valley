@@ -1,10 +1,12 @@
 extends Control
 
+@export var level_name: String = ""
 @export var next_scene: PackedScene = preload("uid://dblo1acmeuiyl")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
+	Globals.current_level_name = level_name
 	animation_player.play("show_sponsors")
 
 func play_form_software_sfx() -> void:

@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 Globals="*res://Autoloads/globals.gd"
 AmbiencePlayer="*res://Autoloads/Ambience_Player/Ambience_Player.tscn"
 OstPlayer="*res://Autoloads/Ost_Player/Ost_Player.tscn"
@@ -37,7 +38,7 @@ mouse_cursor/custom_image_hotspot=Vector2(4, 26)
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/fps-hands/plugin.cfg")
+enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/fps-hands/plugin.cfg")
 
 [gui]
 
