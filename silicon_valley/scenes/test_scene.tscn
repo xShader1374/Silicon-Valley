@@ -36,6 +36,7 @@ material = ExtResource("1_j8ivh")
 [node name="Character" parent="." instance=ExtResource("1_g7g4h")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.043566, 0.10798, -0.0766902)
 continuous_jumping = false
+double_jump_enabled = true
 double_jump_multiplier = 1.0
 dash_enabled = true
 double_tap_interval = 0.0

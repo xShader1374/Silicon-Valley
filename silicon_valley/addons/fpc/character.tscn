@@ -469,7 +469,6 @@ target_position = Vector3(0, 0.5, 0)
 script = ExtResource("3_v3ckk")
 
 [node name="DashCooldown" type="Timer" parent="."]
-wait_time = 3.0
 one_shot = true
 
 [node name="DoubleTap" type="Timer" parent="."]
