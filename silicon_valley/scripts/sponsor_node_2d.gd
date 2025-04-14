@@ -1,6 +1,6 @@
 extends Control
 
-@export var level_name: String = ""
+@export var level_name: String = "Splash Screen"
 @export var next_scene: PackedScene = preload("uid://dblo1acmeuiyl")
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
