@@ -1,8 +1,11 @@
 extends Control
 
+@export var level_name: String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Globals.current_level_name = level_name
+	
 	animateFadeIn()
 	showAnimation(%buttonsPanelContainer)
 	showAnimation(%titleLabel, 1.0)

@@ -467,7 +467,6 @@ curve = SubResource("Curve_utit6")
 
 [node name="MainMenu3DScene" type="Node3D"]
 script = ExtResource("1_pfv6b")
-level_name = "Main Menu"
 AMBIENCE_ID = 0
 force_ambience_change = true
 OST_ID = -2

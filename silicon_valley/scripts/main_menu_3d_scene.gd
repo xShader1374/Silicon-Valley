@@ -1,6 +1,5 @@
 extends Node3D
 
-@export var level_name: String = ""
 @export_category("Ambience")
 ## Ambience's index:
 ## -1 for no Ambience Change
@@ -22,8 +21,6 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Globals.current_level_name = level_name
-	
 	match AMBIENCE_ID:
 		-2:
 			AmbiencePlayer.quitAmbience()

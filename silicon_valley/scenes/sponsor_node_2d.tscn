@@ -251,6 +251,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_h1so0")
+level_name = "Splash Screen"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
