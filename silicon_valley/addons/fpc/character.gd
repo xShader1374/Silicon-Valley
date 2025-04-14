@@ -51,7 +51,8 @@ extends CharacterBody3D
 @export var CROUCH_ANIMATION : AnimationPlayer
 ## A reference to the the player's collision shape for use in the character script.
 @export var COLLISION_MESH : CollisionShape3D
-
+@export var DASH_COOLDOWN : Timer
+@export var DOUBLE_TAP_TIMER: Timer
 #endregion
 
 #region Controls Export Group
@@ -116,10 +117,15 @@ extends CharacterBody3D
 ## If your game changes the gravity value during gameplay, check this property to allow the player to experience the change in gravity.
 @export var dynamic_gravity : bool = false
 
-@export var is_double_jump_enabled :bool = false
+@export var double_jump_enabled :bool = false
 @export var double_jump_cooldown_frames :int = 5 # frames to wait until you can make the double jump after the jump
 @export var double_jump_multiplier = 1.5 
-@export var is_dash_enabled : bool = false
+@export var dash_enabled : bool = false
+@export var double_tap_interval : float = 0.1
+@export var dash_speed :int = 5
+@export var min_velocity = -40
+@export var max_velocity = 40
+
 #endregion
 
 #region Member Variable Initialization
@@ -145,7 +151,11 @@ var mouseInput : Vector2 = Vector2(0,0)
 var is_second_jump :bool = false
 var is_jumping =false
 var jump_cooldown = double_jump_cooldown_frames
-
+var last_forward_tap_time = 0
+var last_backward_tap_time = 0
+var last_right_tap_time = 0
+var last_left_tap_time = 0
+var actual_direction_double_tap_timer
 #endregion
 
 
@@ -173,10 +183,10 @@ func _process(_delta):
 		handle_pausing()
 
 	update_debug_menu_per_frame()
-	if !is_on_floor():
-		jump_cooldown = max(0,jump_cooldown-1)
-	else:
-		jump_cooldown = double_jump_cooldown_frames
+	cooldown_manager()
+	if dash_enabled and DASH_COOLDOWN.is_stopped():
+		handle_double_tap()
+	
 
 func _physics_process(delta): # Most things happen here.
 	# Gravity
@@ -213,11 +223,41 @@ func _physics_process(delta): # Most things happen here.
 	update_debug_menu_per_tick()
 
 	was_on_floor = is_on_floor() # This must always be at the end of physics_process
-
+	velocity = velocity.clamp(Vector3.ONE*min_velocity,Vector3.ONE*max_velocity)
 #endregion
 
 #region Input Handling
-
+func handle_double_tap():
+	
+	if Input.is_action_just_pressed("forward"):
+		if actual_direction_double_tap_timer == "forward" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("forward")
+		else:
+			actual_direction_double_tap_timer = "forward"
+			DOUBLE_TAP_TIMER.start()
+			
+	if Input.is_action_just_pressed("back"):
+		if actual_direction_double_tap_timer == "backward" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("backward")
+		else:
+			actual_direction_double_tap_timer = "backward"
+			DOUBLE_TAP_TIMER.start()
+			
+	if Input.is_action_just_pressed("right"):
+		if actual_direction_double_tap_timer == "right" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("right")
+		else:
+			actual_direction_double_tap_timer = "right"
+			DOUBLE_TAP_TIMER.start()
+	
+	if Input.is_action_just_pressed("left"):
+		if actual_direction_double_tap_timer == "left" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("left")
+		else:
+			actual_direction_double_tap_timer = "left"
+			DOUBLE_TAP_TIMER.start()
+		
+	
 func handle_jumping():
 	if jumping_enabled:
 		if continuous_jumping: # Hold down the jump button
@@ -231,7 +271,7 @@ func handle_jumping():
 					is_jumping = true
 					JUMP_ANIMATION.play("jump", 0.25)
 				velocity.y += jump_velocity
-			if is_double_jump_enabled:
+			if double_jump_enabled:
 				if Input.is_action_just_pressed(controls.JUMP) and !is_on_floor() and !low_ceiling and jump_cooldown==0 and not is_second_jump:
 					if jump_animation:
 						is_jumping = true
@@ -359,8 +399,13 @@ func handle_state(moving):
 					"crouching":
 						if !$CrouchCeilingDetection.is_colliding():
 							enter_normal_state()
-
-
+func cooldown_manager():
+	# doublejump cooldown
+	if !is_on_floor():
+		jump_cooldown = max(0,jump_cooldown-1)
+	else:
+		jump_cooldown = double_jump_cooldown_frames
+		
 # Any enter state function should only be called once when you want to enter that state, not every frame.
 func enter_normal_state():
 	#print("entering normal state")
@@ -384,6 +429,20 @@ func enter_sprint_state():
 	state = "sprinting"
 	speed = sprint_speed
 
+func dash(direction:String):
+	var front_vector = CAMERA.get_global_transform().basis.z.normalized()
+	var actual_direction = 0
+	if direction == "forward":
+		actual_direction = -front_vector
+	if direction == "backward":
+		actual_direction = front_vector
+	if direction == "right":
+		actual_direction = -front_vector.cross(Vector3.UP).normalized()
+	if direction == "left":
+		actual_direction = front_vector.cross(Vector3.UP).normalized()
+	velocity.x = lerp(velocity.x, actual_direction.x * dash_speed, 0.5)
+	velocity.z = lerp(velocity.z, actual_direction.z * dash_speed, 0.5)
+	DASH_COOLDOWN.start()
 #endregion
 
 #region Animation Handling
