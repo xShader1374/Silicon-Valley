@@ -6,7 +6,7 @@ class_name Weapon
 @onready var timer: Timer = $Timer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var collision_shape_3d: CollisionShape3D = $Area3D/CollisionShape3D
-@onready var mesh_instance_3d: MeshInstance3D = $Area3D/MeshInstance3D
+@onready var mesh_instance_3d: MeshInstance3D = $Area3D/buco
 
 @export var base_damage: int = 10
 @export var shape: Shape3D
