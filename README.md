@@ -1,2 +1,0 @@
-# Silicon-Valley
-Silicon Valley
