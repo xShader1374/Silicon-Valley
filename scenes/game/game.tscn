@@ -1,12 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://daucglrwc2ahf"]
+[gd_scene load_steps=10 format=3 uid="uid://daucglrwc2ahf"]
 
-[ext_resource type="PackedScene" uid="uid://eomrg3xc2jq4" path="res://scenes/game/hud/debug_menu.tscn" id="1_0sr1o"]
+[ext_resource type="PackedScene" uid="uid://eomrg3xc2jq4" path="res://scenes/game/hud/debug/debug_menu.tscn" id="1_0sr1o"]
 [ext_resource type="PackedScene" uid="uid://h6vc166hsiyc" path="res://scenes/game/levels/test_world/test_world.tscn" id="1_sul5r"]
 [ext_resource type="PackedScene" uid="uid://wnllrngtfcsq" path="res://scenes/game/enemies/enemy.tscn" id="2_5i0tg"]
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://scenes/game/character/character.tscn" id="2_7h61r"]
-[ext_resource type="PackedScene" uid="uid://3euw0wojttkh" path="res://scenes/game/character/current_weapon.tscn" id="3_bdhmt"]
-[ext_resource type="PackedScene" uid="uid://cjgyp6y6m3ui6" path="res://scenes/game/hud/reticle.tscn" id="4_kelw5"]
-[ext_resource type="Script" uid="uid://6kudhcg23lvx" path="res://scripts/hud/debug/debug_reticle.gd" id="4_lfrn8"]
+[ext_resource type="PackedScene" uid="uid://3euw0wojttkh" path="res://scenes/game/character/weapon/current_weapon.tscn" id="3_bdhmt"]
+[ext_resource type="PackedScene" uid="uid://cjgyp6y6m3ui6" path="res://scenes/game/hud/reticle/reticle.tscn" id="4_kelw5"]
 
 [sub_resource type="Animation" id="Animation_2a8rs"]
 length = 0.001
@@ -79,7 +78,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.93415, 4.81035)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.851525, 0, 0)
 
 [node name="Weapon" parent="SubViewportContainer/SubViewport/test_world/Enemy/Node3D" instance=ExtResource("3_bdhmt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.38391, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0458333, 0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/test_world/Enemy/Node3D"]
 libraries = {
@@ -90,16 +89,6 @@ autoplay = "rotate"
 [node name="Character" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_7h61r")]
 editor_description = ""
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-controls = {
-&"BACKWARD": "m_backward",
-&"CROUCH": "m_crouch",
-&"FORWARD": "m_forward",
-&"JUMP": "m_jump",
-&"LEFT": "m_left",
-&"PAUSE": "ui_cancel",
-&"RIGHT": "m_right",
-&"SPRINT": "m_sprint"
-}
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 1
@@ -110,10 +99,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="DebugMenu" parent="HUD" node_paths=PackedStringArray("RETICLE", "CHARACTER") instance=ExtResource("1_0sr1o")]
+[node name="DebugMenu" parent="HUD" node_paths=PackedStringArray("CHARACTER") instance=ExtResource("1_0sr1o")]
 layout_mode = 1
-script = ExtResource("4_lfrn8")
-RETICLE = NodePath("../Reticle")
 CHARACTER = NodePath("../../SubViewportContainer/SubViewport/Character")
 
 [node name="Reticle" parent="HUD" node_paths=PackedStringArray("CHARACTER") instance=ExtResource("4_kelw5")]
