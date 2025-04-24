@@ -425,7 +425,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 current = true
 
 [node name="Node3D" parent="Head/Camera" instance=ExtResource("2_bx7cj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476072, -0.092029, -0.961302)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476072, -0.318317, -0.961302)
 collision_pos = Vector3(-0.48, 0.3, 0)
 
 [node name="HeadbobAnimation" type="AnimationPlayer" parent="Head"]
@@ -485,4 +485,5 @@ shape = SubResource("CapsuleShape3D_bx7cj")
 [node name="PauseTimer" type="Timer" parent="."]
 process_mode = 3
 
+[connection signal="area_entered" from="DamageArea" to="." method="_on_damage_area_area_entered"]
 [connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
