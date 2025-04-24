@@ -113,7 +113,7 @@ tracks/7/keys = {
 
 [sub_resource type="Animation" id="Animation_iqoh1"]
 resource_name = "show_sponsors"
-length = 10.0
+length = 4.0
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false

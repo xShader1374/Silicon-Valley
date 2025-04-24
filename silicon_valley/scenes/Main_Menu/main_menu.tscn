@@ -534,7 +534,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
+[node name="newGameButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.28485, 0.28485, 0.28485, 1)
 theme_override_colors/font_color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -547,7 +547,7 @@ text = "New Game"
 script = ExtResource("6_hii1o")
 metadata/_custom_type_script = "uid://decqxsttgila4"
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.28485, 0.28485, 0.28485, 1)
 theme_override_colors/font_color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -560,7 +560,7 @@ text = "Continue"
 script = ExtResource("6_hii1o")
 metadata/_custom_type_script = "uid://decqxsttgila4"
 
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(0.28485, 0.28485, 0.28485, 1)
 theme_override_colors/font_color = Color(0.196078, 0.196078, 0.196078, 1)
@@ -587,4 +587,5 @@ script = ExtResource("6_hii1o")
 metadata/_custom_type_script = "uid://decqxsttgila4"
 
 [connection signal="resized" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer" to="." method="_on_buttons_panel_container_resized"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer/newGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/buttonsPanelContainer/MarginContainer/VBoxContainer/quitButton" to="." method="_on_quit_button_pressed"]
