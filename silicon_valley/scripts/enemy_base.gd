@@ -30,3 +30,9 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body.is_in_group("weapons"):
 		var weapon: Weapon = body.get_parent()
 		take_damage(weapon.damage)
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	if area.is_in_group("weapons"):
+		var weapon: Weapon = area.get_parent()
+		take_damage(weapon.damage)

@@ -30,7 +30,9 @@ extends CharacterBody3D
 ## Whether the player can use movement inputs. Does not stop outside forces or jumping. See Jumping Enabled.
 @export var immobile : bool = false
 ## The reticle file to import at runtime. By default are in res://addons/fpc/reticles/. Set to an empty string to remove.
-@export_file var default_reticle
+@export_file var default_reticle: String
+
+
 
 #endregion
 
@@ -49,7 +51,12 @@ extends CharacterBody3D
 @export var CROUCH_ANIMATION : AnimationPlayer
 ## A reference to the the player's collision shape for use in the character script.
 @export var COLLISION_MESH : CollisionShape3D
-
+## Timer che gestisce il cooldown del dash
+@export var DASH_COOLDOWN : Timer
+## Timer che gestisce il cooldown del doppio tap del dash
+@export var DOUBLE_TAP_TIMER: Timer
+## Timer che gestisce la durata del dash
+@export var DASH_DURATION: Timer
 #endregion
 
 #region Controls Export Group
@@ -88,7 +95,7 @@ extends CharacterBody3D
 ## Enable or disable jumping. Useful for restrictive storytelling environments.
 @export var jumping_enabled : bool = true
 ## Whether the player can move in the air or not.
-@export var in_air_momentum : bool = true
+@export var in_air_momentum : bool = false
 ## Smooths the feel of walking.
 @export var motion_smoothing : bool = true
 ## Enables or disables sprinting.
@@ -102,39 +109,61 @@ extends CharacterBody3D
 ## Wether sprinting should effect FOV.
 @export var dynamic_fov : bool = true
 ## If the player holds down the jump button, should the player keep hopping.
-@export var continuous_jumping : bool = true
+@export var continuous_jumping : bool = false
 ## Enables the view bobbing animation.
 @export var view_bobbing : bool = true
 ## Enables an immersive animation when the player jumps and hits the ground.
-@export var jump_animation : bool = true
+@export var jump_animation: bool = true
 ## This determines wether the player can use the pause button, not wether the game will actually pause.
-@export var pausing_enabled : bool = true
+@export var pausing_enabled: bool = true
 ## Use with caution.
-@export var gravity_enabled : bool = true
+@export var gravity_enabled: bool = true
 ## If your game changes the gravity value during gameplay, check this property to allow the player to experience the change in gravity.
-@export var dynamic_gravity : bool = false
+@export var dynamic_gravity: bool = false
+
+@export var double_jump_enabled: bool = false
+# frames to wait until you can make the double jump after the jump
+@export var double_jump_cooldown_frames: int = 5 
+#moltiplicatore della velocità applicato al doppio salto
+@export var double_jump_multiplier: float = 1.5 
+#se vero il doppio salto è attivo
+@export var dash_enabled: bool = false
+#il tempo massimo entro il quale si deve fare il doppio tap
+@export var double_tap_interval: float = 0.1
+#velocità del dash
+@export var dash_speed: int = 35
+#minima velocità del personaggio
+@export var min_velocity: float = -40
+#massima velocità
+@export var max_velocity: float = 40
 
 #endregion
 
 #region Member Variable Initialization
 
 # These are variables used in this script that don't need to be exposed in the editor.
-var speed : float = base_speed
-var current_speed : float = 0.0
+var speed: float = base_speed
+var current_speed: float = 0.0
 # States: normal, crouching, sprinting
-var state : String = "normal"
-var low_ceiling : bool = false # This is for when the ceiling is too low and the player needs to crouch.
-var was_on_floor : bool = true # Was the player on the floor last frame (for landing animation)
+var state: String = "normal"
+var low_ceiling: bool = false # This is for when the ceiling is too low and the player needs to crouch.
+var was_on_floor: bool = true # Was the player on the floor last frame (for landing animation)
 
 # The reticle should always have a Control node as the root
-var RETICLE : Control
+var RETICLE: Control
 
 # Get the gravity from the project settings to be synced with RigidBody nodes
-var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity") # Don't set this as a const, see the gravity section in _physics_process
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") # Don't set this as a const, see the gravity section in _physics_process
 
 # Stores mouse input for rotating the camera in the physics process
-var mouseInput : Vector2 = Vector2(0,0)
+var mouseInput: Vector2 = Vector2(0,0)
 
+#vero se il secondo salto è già stato fatto
+var is_second_jump: bool = false
+#deelay per impedire di saltare due volte nello stesso momento
+var jump_cooldown: int = double_jump_cooldown_frames
+#direzione alla quale sta puntando il dash per il doppio tap
+var actual_direction_double_tap_timer: String
 #endregion
 
 
@@ -151,7 +180,7 @@ var is_defending: bool = false
 
 #region Main Control Flow
 
-func _ready():
+func _ready() -> void:
 	health = max_health
 
 	#It is safe to comment this line if your game doesn't start with the mouse captured
@@ -167,14 +196,19 @@ func _ready():
 	initialize_animations()
 	check_controls()
 	enter_normal_state()
+	
 
-
-func _process(_delta):
+func _process(_delta: float) -> void:
 	if pausing_enabled:
 		handle_pausing()
 
 	update_debug_menu_per_frame()
-
+	#cooldown del doppio salto
+	cooldown_manager()
+	#se il dash è abilitato e il cooldown è finito
+	if dash_enabled and DASH_COOLDOWN.is_stopped():
+		handle_double_tap()
+	
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("lmb"):
@@ -197,20 +231,21 @@ func _input(event: InputEvent) -> void:
 		weapon.default()
 
 
-func no_more_parry():
+func no_more_parry() -> void:
 	parry = false
 
 
-func _physics_process(delta): # Most things happen here.
+func _physics_process(delta: float) -> void: # Most things happen here.
 	# Gravity
 	if dynamic_gravity:
 		gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-	if not is_on_floor() and gravity and gravity_enabled:
+	if not is_on_floor() and gravity and gravity_enabled and DASH_DURATION.is_stopped():
 		velocity.y -= gravity * delta
-
+	if is_on_floor():
+		is_second_jump = false
 	handle_jumping()
 
-	var input_dir = Vector2.ZERO
+	var input_dir: Vector2 = Vector2.ZERO
 
 	if not immobile: # Immobility works by interrupting user input, so other forces can still be applied to the player
 		input_dir = Input.get_vector(controls.LEFT, controls.RIGHT, controls.FORWARD, controls.BACKWARD)
@@ -235,12 +270,47 @@ func _physics_process(delta): # Most things happen here.
 	update_debug_menu_per_tick()
 
 	was_on_floor = is_on_floor() # This must always be at the end of physics_process
-
+	velocity = velocity.clamp(Vector3.ONE*min_velocity,Vector3.ONE*max_velocity)
 #endregion
 
 #region Input Handling
+func handle_double_tap() -> void:
+	#se è stato premuto il tasto avanti
+	if Input.is_action_just_pressed("forward"):
+		#ed è già stato premuto in precedenza e c'è ancora tempo
+		if actual_direction_double_tap_timer == "forward" and DOUBLE_TAP_TIMER.time_left>0:
+			#dasha in avanti
+			dash("forward")
+		else:
+			#setta come attuale direzione forward
+			actual_direction_double_tap_timer = "forward"
+			#fa partire il timer
+			DOUBLE_TAP_TIMER.start()
+	# Stessa cosa fanno quelli qui sotto
+	#
+	if Input.is_action_just_pressed("back"):
+		if actual_direction_double_tap_timer == "backward" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("backward")
+		else:
+			actual_direction_double_tap_timer = "backward"
+			DOUBLE_TAP_TIMER.start()
+			
+	if Input.is_action_just_pressed("right"):
+		if actual_direction_double_tap_timer == "right" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("right")
+		else:
+			actual_direction_double_tap_timer = "right"
+			DOUBLE_TAP_TIMER.start()
+	
+	if Input.is_action_just_pressed("left"):
+		if actual_direction_double_tap_timer == "left" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("left")
+		else:
+			actual_direction_double_tap_timer = "left"
+			DOUBLE_TAP_TIMER.start()
+		
 
-func handle_jumping():
+func handle_jumping() -> void:
 	if jumping_enabled:
 		if continuous_jumping: # Hold down the jump button
 			if Input.is_action_pressed(controls.JUMP) and is_on_floor() and !low_ceiling:
@@ -251,12 +321,24 @@ func handle_jumping():
 			if Input.is_action_just_pressed(controls.JUMP) and is_on_floor() and !low_ceiling:
 				if jump_animation:
 					JUMP_ANIMATION.play("jump", 0.25)
-				velocity.y += jump_velocity
-
-
-func handle_movement(delta, input_dir):
-	var direction = input_dir.rotated(-HEAD.rotation.y)
-	direction = Vector3(direction.x, 0, direction.y)
+				#velocity.y -=velocity.y
+				velocity.y = min(velocity.y+jump_velocity,max_velocity) 
+		###########################
+		#Parte aggiunta
+		#Se il doppio salto è attivo
+			if double_jump_enabled:
+				#se è stato premuto salto in aria quando non ha il tetto vicino e il cooldown è superato e non è già stato fatto il secondo salto
+				if Input.is_action_just_pressed(controls.JUMP) and !is_on_floor() and !low_ceiling and jump_cooldown==0 and not is_second_jump:
+					#se le animazioni del salto sono attive fai partire l'animazione
+					if jump_animation:
+						JUMP_ANIMATION.play("jump", 0.25)
+					#applica la forza del salto
+					velocity.y += jump_velocity*double_jump_multiplier
+					#scrive che è stato fatto il doppio salto
+					is_second_jump = true
+func handle_movement(delta: float, input_dir: Vector2) -> void:
+	var direction_vec2: Vector2 = input_dir.rotated(-HEAD.rotation.y)
+	var direction: Vector3 = Vector3(direction_vec2.x, 0.0, direction_vec2.y)
 	move_and_slide()
 
 	if in_air_momentum:
@@ -276,7 +358,7 @@ func handle_movement(delta, input_dir):
 			velocity.z = direction.z * speed
 
 
-func handle_head_rotation():
+func handle_head_rotation() -> void:
 	if invert_camera_x_axis:
 		HEAD.rotation_degrees.y -= mouseInput.x * mouse_sensitivity * -1
 	else:
@@ -288,7 +370,7 @@ func handle_head_rotation():
 		HEAD.rotation_degrees.x -= mouseInput.y * mouse_sensitivity
 
 	if controller_support:
-		var controller_view_rotation = Input.get_vector(controller_controls.LOOK_DOWN, controller_controls.LOOK_UP, controller_controls.LOOK_RIGHT, controller_controls.LOOK_LEFT) * look_sensitivity # These are inverted because of the nature of 3D rotation.
+		var controller_view_rotation: Vector2 = Input.get_vector(controller_controls.LOOK_DOWN, controller_controls.LOOK_UP, controller_controls.LOOK_RIGHT, controller_controls.LOOK_LEFT) * look_sensitivity # These are inverted because of the nature of 3D rotation.
 		if invert_camera_x_axis:
 			HEAD.rotation.x += controller_view_rotation.x * -1
 		else:
@@ -303,7 +385,7 @@ func handle_head_rotation():
 	HEAD.rotation.x = clamp(HEAD.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 
-func check_controls(): # If you add a control, you might want to add a check for it here.
+func check_controls() -> void: # If you add a control, you might want to add a check for it here.
 	# The actions are being disabled so the engine doesn't halt the entire project in debug mode
 	if !InputMap.has_action(controls.JUMP):
 		push_error("No control mapped for jumping. Please add an input map control. Disabling jump.")
@@ -334,12 +416,12 @@ func check_controls(): # If you add a control, you might want to add a check for
 
 #region State Handling
 
-func handle_state(moving):
+func handle_state(moving: Vector2) -> void:
 	if sprint_enabled:
 		if sprint_mode == 0:
-			if Input.is_action_pressed(controls.SPRINT) and state != "crouching":
+			if Input.is_action_pressed(controls.SPRINT) and state != "crouching" :
 				if moving:
-					if state != "sprinting":
+					if state != "sprinting" and is_on_floor():
 						enter_sprint_state()
 				else:
 					if state == "sprinting":
@@ -375,52 +457,69 @@ func handle_state(moving):
 					"crouching":
 						if !$CrouchCeilingDetection.is_colliding():
 							enter_normal_state()
+##
 
-
+		
 # Any enter state function should only be called once when you want to enter that state, not every frame.
-func enter_normal_state():
+func enter_normal_state() -> void:
 	#print("entering normal state")
-	var prev_state = state
+	var prev_state: String = state
 	if prev_state == "crouching":
 		CROUCH_ANIMATION.play_backwards("crouch")
 	state = "normal"
 	speed = base_speed
 
-func enter_crouch_state():
+func enter_crouch_state() -> void:
 	#print("entering crouch state")
 	state = "crouching"
 	speed = crouch_speed
 	CROUCH_ANIMATION.play("crouch")
 
-func enter_sprint_state():
+func enter_sprint_state() -> void:
 	#print("entering sprint state")
-	var prev_state = state
+	var prev_state: String = state
 	if prev_state == "crouching":
 		CROUCH_ANIMATION.play_backwards("crouch")
 	state = "sprinting"
 	speed = sprint_speed
 
+func dash(direction: String) -> void:
+	var front_vector: Vector3 = CAMERA.get_global_transform().basis.z.normalized()
+	var actual_direction: Vector3 = Vector3.ZERO
+	if direction == "forward":
+		actual_direction = -front_vector
+	if direction == "backward":
+		actual_direction = front_vector
+	if direction == "right":
+		actual_direction = -front_vector.cross(Vector3.UP).normalized()
+	if direction == "left":
+		actual_direction = front_vector.cross(Vector3.UP).normalized()
+	velocity.x = lerp(velocity.x, actual_direction.x * dash_speed, 0.7)
+	velocity.z = lerp(velocity.z, actual_direction.z * dash_speed, 0.7)
+	DASH_DURATION.start()
+	DASH_COOLDOWN.start()
+	CAMERA.fov = lerp(CAMERA.fov, 60.0, 0.3)
 #endregion
 
 #region Animation Handling
 
-func initialize_animations():
+func initialize_animations() -> void:
 	# Reset the camera position
 	# If you want to change the default head height, change these animations.
 	HEADBOB_ANIMATION.play("RESET")
 	JUMP_ANIMATION.play("RESET")
 	CROUCH_ANIMATION.play("RESET")
 
-func play_headbob_animation(moving):
+func play_headbob_animation(moving: Vector2) -> void:
 	if moving and is_on_floor():
-		var use_headbob_animation : String
+		var use_headbob_animation: String
 		match state:
 			"normal","crouching":
 				use_headbob_animation = "walk"
 			"sprinting":
 				use_headbob_animation = "sprint"
 
-		var was_playing : bool = false
+		var was_playing: bool = false
 		if HEADBOB_ANIMATION.current_animation == use_headbob_animation:
 			was_playing = true
 
@@ -438,7 +537,7 @@ func play_headbob_animation(moving):
 			HEADBOB_ANIMATION.speed_scale = 1
 			HEADBOB_ANIMATION.play("RESET", 1)
 
-func play_jump_animation():
+func play_jump_animation() -> void:
 	if !was_on_floor and is_on_floor(): # The player just landed
 		var facing_direction : Vector3 = CAMERA.get_global_transform().basis.x
 		var facing_direction_2D : Vector2 = Vector2(facing_direction.x, facing_direction.z).normalized()
@@ -458,7 +557,7 @@ func play_jump_animation():
 
 #region Debug Menu
 
-func update_debug_menu_per_frame():
+func update_debug_menu_per_frame() -> void:
 	$UserInterface/DebugPanel.add_property("FPS", Performance.get_monitor(Performance.TIME_FPS), 0)
 	var status : String = state
 	if !is_on_floor():
@@ -466,22 +565,22 @@ func update_debug_menu_per_frame():
 	$UserInterface/DebugPanel.add_property("State", status, 4)
 
 
-func update_debug_menu_per_tick():
+func update_debug_menu_per_tick() -> void:
 	# Big thanks to github.com/LorenzoAncora for the concept of the improved debug values
 	current_speed = Vector3.ZERO.distance_to(get_real_velocity())
 	$UserInterface/DebugPanel.add_property("Speed", snappedf(current_speed, 0.001), 1)
 	$UserInterface/DebugPanel.add_property("Target speed", speed, 2)
-	var cv : Vector3 = get_real_velocity()
-	var vd : Array[float] = [
+	var cv: Vector3 = get_real_velocity()
+	var vd: Array[float] = [
 		snappedf(cv.x, 0.001),
 		snappedf(cv.y, 0.001),
 		snappedf(cv.z, 0.001)
 	]
-	var readable_velocity : String = "X: " + str(vd[0]) + " Y: " + str(vd[1]) + " Z: " + str(vd[2])
+	var readable_velocity: String = "X: " + str(vd[0]) + " Y: " + str(vd[1]) + " Z: " + str(vd[2])
 	$UserInterface/DebugPanel.add_property("Velocity", readable_velocity, 3)
 
 
-func _unhandled_input(event : InputEvent):
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		mouseInput.x += event.relative.x
 		mouseInput.y += event.relative.y
@@ -496,7 +595,7 @@ func _unhandled_input(event : InputEvent):
 
 #region Misc Functions
 
-func change_reticle(reticle): # Yup, this function is kinda strange
+func change_reticle(reticle: String) -> void: # Yup, this function is kinda strange
 	if RETICLE:
 		RETICLE.queue_free()
 
@@ -505,13 +604,13 @@ func change_reticle(reticle): # Yup, this function is kinda strange
 	$UserInterface.add_child(RETICLE)
 
 
-func update_camera_fov():
+func update_camera_fov() -> void:
 	if state == "sprinting":
 		CAMERA.fov = lerp(CAMERA.fov, 85.0, 0.3)
 	else:
 		CAMERA.fov = lerp(CAMERA.fov, 75.0, 0.3)
 
-func handle_pausing():
+func handle_pausing() -> void:
 	if Input.is_action_just_pressed(controls.PAUSE):
 		# You may want another node to handle pausing, because this player may get paused too.
 		match Input.mouse_mode:
@@ -522,16 +621,31 @@ func handle_pausing():
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				#get_tree().paused = false
 
-#endregion
 
+
+
+
+#region Nuove Aggiunte
+# Gestisce il piccolo cooldwon del doppio salto per impedire di saltare due volte nello stesso frame
+
+func cooldown_manager() -> void:
+	# se non è per terra
+	if !is_on_floor():
+		#diminuisce il cooldown di 1 ogni frame
+		jump_cooldown = max(0,jump_cooldown-1)
+	else:
+		#fa ricominciare il cooldown da capo
+		jump_cooldown = double_jump_cooldown_frames
+	
+#endregion
 
 func _on_damage_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("weapons"):
-		var enemy_weapon = body.get_parent()
+		var enemy_weapon: Node3D = body.get_parent()
 		
 		if is_defending:
 			if parry:
-				SfxPlayer.play(5)
+				SfxPlayer.play(5, 0.9, 1.1)
 				get_tree().paused = true
 				
 				pause_timer.start(0.1)
@@ -539,8 +653,31 @@ func _on_damage_area_body_entered(body: Node3D) -> void:
 				if !pause_timer.timeout.is_connected(unpause):
 					pause_timer.timeout.connect(unpause)
 			else:
-				SfxPlayer.play(4)
+				SfxPlayer.play(4, 0.9, 1.1)
 
 
-func unpause():
+func unpause() -> void:
 	get_tree().paused = false
+
+
+func _on_damage_area_area_entered(area: Area3D) -> void:
+	if area.is_in_group("weapons"):
+		var enemy_weapon: Node3D = area.get_parent()
+		
+		if is_defending:
+			if parry:
+				SfxPlayer.play(5, 0.9, 1.1)
+				get_tree().paused = true
+				
+				pause_timer.start(0.1)
+				
+				if !pause_timer.timeout.is_connected(unpause):
+					pause_timer.timeout.connect(unpause)
+			else:
+				SfxPlayer.play(4, 0.9, 1.1)
+
+#endregion
+
+
+func _on_dash_duration_timeout() -> void:
+	CAMERA.fov = lerp(CAMERA.fov, 75.0, 0.3)
