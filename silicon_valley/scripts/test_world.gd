@@ -1,7 +1,7 @@
-extends Node3D
+extends SubViewportContainer
 
-@onready var enemy_weapon: Weapon = $EnemyBase/EnemyWeapon
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var enemy_weapon: Weapon = $SubViewport/test_world/EnemyBase/EnemyWeapon
+@onready var animation_player: AnimationPlayer = $SubViewport/test_world/AnimationPlayer
 
 func _ready() -> void:
 	enemy_weapon.set_damage(10)

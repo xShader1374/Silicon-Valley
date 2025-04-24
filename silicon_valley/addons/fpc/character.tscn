@@ -381,9 +381,14 @@ MarginContainer/constants/margin_top = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4wwl"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bx7cj"]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH")]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bx7cj"]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("HEAD", "CAMERA", "HEADBOB_ANIMATION", "JUMP_ANIMATION", "CROUCH_ANIMATION", "COLLISION_MESH", "DASH_COOLDOWN", "DOUBLE_TAP_TIMER")]
+
+
+
+
+
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_0t4e8")
 jump_velocity = 6.75
@@ -394,6 +399,8 @@ HEADBOB_ANIMATION = NodePath("Head/HeadbobAnimation")
 JUMP_ANIMATION = NodePath("Head/JumpAnimation")
 CROUCH_ANIMATION = NodePath("CrouchAnimation")
 COLLISION_MESH = NodePath("Collision")
+DASH_COOLDOWN = NodePath("DashCooldown")
+DOUBLE_TAP_TIMER = NodePath("DoubleTap")
 controls = {
 &"BACKWARD": "back",
 &"CROUCH": "crouch",
@@ -414,6 +421,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_uy03j")
 
 [node name="CrouchAnimation" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_5e5t5")
 }
@@ -425,16 +433,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 current = true
 
 [node name="Node3D" parent="Head/Camera" instance=ExtResource("2_bx7cj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476072, -0.092029, -0.961302)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476072, -0.318317, -0.961302)
 collision_pos = Vector3(-0.48, 0.3, 0)
 
 [node name="HeadbobAnimation" type="AnimationPlayer" parent="Head"]
+callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_o0unb")
 }
 blend_times = [&"RESET", &"RESET", 0.5, &"RESET", &"walk", 0.5, &"walk", &"RESET", 0.5]
 
 [node name="JumpAnimation" type="AnimationPlayer" parent="Head"]
+callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_qeg5r")
 }
@@ -473,6 +483,14 @@ target_position = Vector3(0, 0.5, 0)
 [node name="EditorModule" type="Node" parent="."]
 script = ExtResource("3_v3ckk")
 
+
+[node name="DashCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="DoubleTap" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [node name="ParryTimer" type="Timer" parent="."]
 
 [node name="DamageArea" type="Area3D" parent="."]
@@ -485,4 +503,6 @@ shape = SubResource("CapsuleShape3D_bx7cj")
 [node name="PauseTimer" type="Timer" parent="."]
 process_mode = 3
 
+[connection signal="area_entered" from="DamageArea" to="." method="_on_damage_area_area_entered"]
 [connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+

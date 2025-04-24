@@ -32,6 +32,8 @@ extends CharacterBody3D
 ## The reticle file to import at runtime. By default are in res://addons/fpc/reticles/. Set to an empty string to remove.
 @export_file var default_reticle
 
+
+
 #endregion
 
 #region Nodes Export Group
@@ -49,7 +51,8 @@ extends CharacterBody3D
 @export var CROUCH_ANIMATION : AnimationPlayer
 ## A reference to the the player's collision shape for use in the character script.
 @export var COLLISION_MESH : CollisionShape3D
-
+@export var DASH_COOLDOWN : Timer
+@export var DOUBLE_TAP_TIMER: Timer
 #endregion
 
 #region Controls Export Group
@@ -114,6 +117,22 @@ extends CharacterBody3D
 ## If your game changes the gravity value during gameplay, check this property to allow the player to experience the change in gravity.
 @export var dynamic_gravity : bool = false
 
+@export var double_jump_enabled :bool = false
+# frames to wait until you can make the double jump after the jump
+@export var double_jump_cooldown_frames :int = 5 
+#moltiplicatore della velocità applicato al doppio salto
+@export var double_jump_multiplier = 1.5 
+#se vero il doppio salto è attivo
+@export var dash_enabled : bool = false
+#il tempo massimo entro il quale si deve fare il doppio tap
+@export var double_tap_interval : float = 0.1
+#velocità del dash
+@export var dash_speed :int = 5
+#minima velocità del personaggio
+@export var min_velocity = -40
+#massima velocità
+@export var max_velocity = 40
+
 #endregion
 
 #region Member Variable Initialization
@@ -135,6 +154,12 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity") 
 # Stores mouse input for rotating the camera in the physics process
 var mouseInput : Vector2 = Vector2(0,0)
 
+#vero se il secondo salto è già stato fatto
+var is_second_jump :bool = false
+#deelay per impedire di saltare due volte nello stesso momento
+var jump_cooldown = double_jump_cooldown_frames
+#direzione alla quale sta puntando il dash per il doppio tap
+var actual_direction_double_tap_timer
 #endregion
 
 
@@ -167,14 +192,19 @@ func _ready():
 	initialize_animations()
 	check_controls()
 	enter_normal_state()
-
+	
 
 func _process(_delta):
 	if pausing_enabled:
 		handle_pausing()
 
 	update_debug_menu_per_frame()
-
+	#cooldown del doppio salto
+	cooldown_manager()
+	#se il dash è abilitato e il cooldown è finito
+	if dash_enabled and DASH_COOLDOWN.is_stopped():
+		handle_double_tap()
+	
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("lmb"):
@@ -207,7 +237,8 @@ func _physics_process(delta): # Most things happen here.
 		gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 	if not is_on_floor() and gravity and gravity_enabled:
 		velocity.y -= gravity * delta
-
+	if is_on_floor():
+		is_second_jump = false
 	handle_jumping()
 
 	var input_dir = Vector2.ZERO
@@ -235,11 +266,46 @@ func _physics_process(delta): # Most things happen here.
 	update_debug_menu_per_tick()
 
 	was_on_floor = is_on_floor() # This must always be at the end of physics_process
-
+	velocity = velocity.clamp(Vector3.ONE*min_velocity,Vector3.ONE*max_velocity)
 #endregion
 
 #region Input Handling
-
+func handle_double_tap():
+	#se è stato premuto il tasto avanti
+	if Input.is_action_just_pressed("forward"):
+		#ed è già stato premuto in precedenza e c'è ancora tempo
+		if actual_direction_double_tap_timer == "forward" and DOUBLE_TAP_TIMER.time_left>0:
+			#dasha in avanti
+			dash("forward")
+		else:
+			#setta come attuale direzione forward
+			actual_direction_double_tap_timer = "forward"
+			#fa partire il timer
+			DOUBLE_TAP_TIMER.start()
+	# Stessa cosa fanno quelli qui sotto
+	#
+	if Input.is_action_just_pressed("back"):
+		if actual_direction_double_tap_timer == "backward" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("backward")
+		else:
+			actual_direction_double_tap_timer = "backward"
+			DOUBLE_TAP_TIMER.start()
+			
+	if Input.is_action_just_pressed("right"):
+		if actual_direction_double_tap_timer == "right" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("right")
+		else:
+			actual_direction_double_tap_timer = "right"
+			DOUBLE_TAP_TIMER.start()
+	
+	if Input.is_action_just_pressed("left"):
+		if actual_direction_double_tap_timer == "left" and DOUBLE_TAP_TIMER.time_left>0:
+			dash("left")
+		else:
+			actual_direction_double_tap_timer = "left"
+			DOUBLE_TAP_TIMER.start()
+		
+	
 func handle_jumping():
 	if jumping_enabled:
 		if continuous_jumping: # Hold down the jump button
@@ -252,8 +318,19 @@ func handle_jumping():
 				if jump_animation:
 					JUMP_ANIMATION.play("jump", 0.25)
 				velocity.y += jump_velocity
-
-
+		###########################
+		#Parte aggiunta
+		#Se il doppio salto è attivo
+			if double_jump_enabled:
+				#se è stato premuto salto in aria quando non ha il tetto vicino e il cooldown è superato e non è già stato fatto il secondo salto
+				if Input.is_action_just_pressed(controls.JUMP) and !is_on_floor() and !low_ceiling and jump_cooldown==0 and not is_second_jump:
+					#se le animazioni del salto sono attive fai partire l'animazione
+					if jump_animation:
+						JUMP_ANIMATION.play("jump", 0.25)
+					#applica la forza del salto
+					velocity.y += jump_velocity*double_jump_multiplier
+					#scrive che è stato fatto il doppio salto
+					is_second_jump = true
 func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)
 	direction = Vector3(direction.x, 0, direction.y)
@@ -375,8 +452,9 @@ func handle_state(moving):
 					"crouching":
 						if !$CrouchCeilingDetection.is_colliding():
 							enter_normal_state()
+##
 
-
+		
 # Any enter state function should only be called once when you want to enter that state, not every frame.
 func enter_normal_state():
 	#print("entering normal state")
@@ -400,6 +478,20 @@ func enter_sprint_state():
 	state = "sprinting"
 	speed = sprint_speed
 
+func dash(direction:String):
+	var front_vector = CAMERA.get_global_transform().basis.z.normalized()
+	var actual_direction = 0
+	if direction == "forward":
+		actual_direction = -front_vector
+	if direction == "backward":
+		actual_direction = front_vector
+	if direction == "right":
+		actual_direction = -front_vector.cross(Vector3.UP).normalized()
+	if direction == "left":
+		actual_direction = front_vector.cross(Vector3.UP).normalized()
+	velocity.x = lerp(velocity.x, actual_direction.x * dash_speed, 0.5)
+	velocity.z = lerp(velocity.z, actual_direction.z * dash_speed, 0.5)
+	DASH_COOLDOWN.start()
 #endregion
 
 #region Animation Handling
@@ -522,8 +614,23 @@ func handle_pausing():
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				#get_tree().paused = false
 
-#endregion
 
+
+
+
+#region Nuove Aggiunte
+# Gestisce il piccolo cooldwon del doppio salto per impedire di saltare due volte nello stesso frame
+
+func cooldown_manager():
+	# se non è per terra
+	if !is_on_floor():
+		#diminuisce il cooldown di 1 ogni frame
+		jump_cooldown = max(0,jump_cooldown-1)
+	else:
+		#fa ricominciare il cooldown da capo
+		jump_cooldown = double_jump_cooldown_frames
+		
+#endregion
 
 func _on_damage_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("weapons"):
@@ -544,3 +651,22 @@ func _on_damage_area_body_entered(body: Node3D) -> void:
 
 func unpause():
 	get_tree().paused = false
+
+
+func _on_damage_area_area_entered(area: Area3D) -> void:
+	if area.is_in_group("weapons"):
+		var enemy_weapon = area.get_parent()
+		
+		if is_defending:
+			if parry:
+				SfxPlayer.play(5)
+				get_tree().paused = true
+				
+				pause_timer.start(0.1)
+				
+				if !pause_timer.timeout.is_connected(unpause):
+					pause_timer.timeout.connect(unpause)
+			else:
+				SfxPlayer.play(4)
+
+#endregion

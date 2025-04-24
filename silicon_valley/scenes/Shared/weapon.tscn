@@ -1,16 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://syo086bn4akp"]
 
 [ext_resource type="Script" uid="uid://c3elbwxpk1ot8" path="res://scripts/weapon.gd" id="1_xasec"]
-[ext_resource type="ArrayMesh" uid="uid://cjjqxbefyt3yx" path="res://assets/Models/Weapons/freno.res" id="2_uxy44"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kn6k6"]
+[ext_resource type="PackedScene" uid="uid://dvxloidwmtpb1" path="res://assets/Models/Weapons/freno_bucato.blend" id="2_uxy44"]
 
 [sub_resource type="Animation" id="Animation_uxn4k"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/path = NodePath("Area3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,7 +24,7 @@ length = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/path = NodePath("Area3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -42,7 +40,7 @@ length = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/path = NodePath("Area3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -58,7 +56,7 @@ length = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/path = NodePath("Area3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -74,7 +72,7 @@ length = 0.02
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("RigidBody3D:rotation")
+tracks/0/path = NodePath("Area3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -93,20 +91,10 @@ _data = {
 &"hit_reset": SubResource("Animation_bmw2d")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_kn6k6"]
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_xasec")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="." groups=["weapons"]]
-collision_layer = 2
-collision_mask = 3
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-transform = Transform3D(0.25, 0, 0, 0, 1.3, 0, 0, 0, 0.25, 0, 0.3, 0)
-shape = SubResource("BoxShape3D_kn6k6")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
-transform = Transform3D(2.18557e-09, 0.05, -4.37114e-09, 0.05, -2.18557e-09, 0, -1.91069e-16, -4.37114e-09, -0.05, 0, 0.282573, 0)
-mesh = ExtResource("2_uxy44")
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -114,3 +102,12 @@ mesh = ExtResource("2_uxy44")
 libraries = {
 &"": SubResource("AnimationLibrary_bmw2d")
 }
+
+[node name="Area3D" type="Area3D" parent="." groups=["weapons"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.25, 0, 0, 0, 1.3, 0, 0, 0, 0.25, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_kn6k6")
+
+[node name="freno_bucato" parent="Area3D" instance=ExtResource("2_uxy44")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.3, 0)
