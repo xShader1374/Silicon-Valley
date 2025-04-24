@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ijght5wfksc2"]
+
+[ext_resource type="Script" uid="uid://vo3wkjylji4k" path="res://Autoloads/Ost_Player/ost_player.gd" id="1_aegw1"]
+
+[node name="OstPlayer" type="AudioStreamPlayer"]
+process_mode = 3
+max_polyphony = 3
+script = ExtResource("1_aegw1")

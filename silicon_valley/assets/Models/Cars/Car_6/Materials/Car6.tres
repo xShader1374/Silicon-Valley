@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dt3dsjh87dgt7"]
+
+[ext_resource type="Texture2D" uid="uid://d21gwxcbtjo52" path="res://assets/Models/Cars/Car_6/textures/car6.png" id="1_siars"]
+
+[resource]
+albedo_texture = ExtResource("1_siars")
+metallic = 0.25
+metallic_specular = 0.75
+roughness = 0.75
+normal_enabled = true
+normal_scale = 1.14
+texture_filter = 4

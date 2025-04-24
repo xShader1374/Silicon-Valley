@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgwm20pxrbx87"]
+
+[ext_resource type="Script" uid="uid://d3x11ycstt7jd" path="res://Autoloads/Ambience_Player/ambience_player.gd" id="1_c0sc0"]
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer"]
+process_mode = 3
+max_polyphony = 3
+script = ExtResource("1_c0sc0")
